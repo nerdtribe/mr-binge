@@ -1,2 +1,29 @@
-# Tbinge
-Tbinge is a desktop application written in Electron/Node.js that will serve as a tracking mechanism for Movies and TV Shows that the user is either interested in viewing or has viewed and on which they would like to keep a database.
+# tbinge
+
+## Project setup
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn run serve
+```
+
+### Compiles and minifies for production
+```
+yarn run build
+```
+
+### Run your tests
+```
+yarn run test
+```
+
+### Lints and fixes files
+```
+yarn run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
