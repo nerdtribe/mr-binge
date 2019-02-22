@@ -58,6 +58,8 @@
 export default {
   data: () => ({
     dark: true,
+    // TODO: Add production local db in users home dir
+    tempDB: 'src/devDB.json',
     primaryDrawer: {
       model: 'mini',
       type: 'permanent',
@@ -72,7 +74,13 @@ export default {
     footer: {
       inset: true
     }
-  })
+  }),
+  created () {
+    // Read in local database and store it
+    const fs = require('fs')
+    let json = JSON.parse(fs.readFileSync(this.tempDB, 'utf8'))
+    this.$store.commit('change', json.data)
+  }
 }
 </script>
 
