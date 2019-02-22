@@ -13,11 +13,9 @@
     </v-layout>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
-        <v-flex v-for="movie in localMovies" :key="movie.id" xs4 md2 lg1 d-flex class="movie-img">
+        <v-flex v-for="movie in localMovies" :key="movie.movieId" xs4 md2 lg1 d-flex class="movie-img">
           <v-card flat tile color="transparent">
-            <v-img :src="movie.poster" :aspect-ratio="2/3" @click="selectedId = $event; isDialogDisplayed = true;">
-
-            </v-img>
+            <v-img :src="movie.poster" :aspect-ratio="2/3" @click.prevent="selectMovie(movie.movieId)"></v-img>
             <v-card-actions>
               <p class="body-1 mb-0">{{ movie.title }}</p>
             </v-card-actions>
@@ -26,7 +24,7 @@
       </v-layout>
     </v-container>
     <v-dialog v-model="isDialogDisplayed" transition="dialog-bottom-transition">
-      <DetailsDialog @cancel="isDialogDisplayed = false" @delete="isDialogDisplayed = false" :id="selectedId"/>
+      <DetailsDialog @cancel="isDialogDisplayed = false" @delete="isDialogDisplayed = false" :id="'selectedId'"/>
     </v-dialog>
   </v-app>
 </template>
@@ -40,12 +38,25 @@ export default {
   },
   data: () => ({
     isDialogDisplayed: false,
-    selectedId: null,
     localMovies: []
   }),
   created () {
     // Retrieve list of local movies from the store
     this.localMovies = this.$store.state.localData.movies
+  },
+  methods: {
+    selectMovie (id) {
+      console.log(id)
+      // fetch selected movie
+      this.populateStore(id)
+
+      // open dialog display
+      this.isDialogDisplayed = true
+    },
+    populateStore (id) {
+      this.$store.state.selectedDetail = this.localMovies.filter(movie => movie.movieId === id)[0]
+      console.log({movie: this.$store.state.selectedDetail})
+    }
   }
 }
 </script>

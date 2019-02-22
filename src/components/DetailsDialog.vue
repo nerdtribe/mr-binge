@@ -6,6 +6,7 @@
     </v-card-title>
 
     <v-card-text>
+      <p>{{id}}</p>
       <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. At porro quidem neque velit aperiam magni maiores autem earum vel dolore illo dignissimos nisi culpa laborum doloremque quas, quasi repellendus error.</p>
     </v-card-text>
     <youtube :video-id="videoId"></youtube>
@@ -15,6 +16,7 @@
 
 <script>
 export default {
+  props: ['id'],
   data: () => ({
     dialog: false,
     notifications: false,
