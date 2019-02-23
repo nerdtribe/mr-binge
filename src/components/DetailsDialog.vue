@@ -7,13 +7,13 @@
         :rotate="360"
         :size="50"
         :width="8"
-        :value="rating"
+        :value="voteAverage"
         color="white"
       >
-      {{ rating }}%
+      {{ voteAverage }}%
       </v-progress-circular>
       <v-toolbar-title class="subheading" extended>({{ voteCount }})</v-toolbar-title>
-      <v-btn flat icon color="white" class="mx-2">
+      <v-btn flat icon color="white" class="mx-2" v-if="rating">
         <v-icon>delete</v-icon>
       </v-btn>
     </v-toolbar>
@@ -25,7 +25,7 @@
       </v-layout>
     </v-card-text>
 
-    <v-card-actions fill-height class="pa-3">
+    <v-card-actions fill-height class="pa-3" v-if="rating">
       <v-rating
         v-model="rating"
         background-color="white"
@@ -35,6 +35,7 @@
         hover
         size="32"
       ></v-rating>
+      {{ rating }}
       <v-spacer></v-spacer>
       <span class="grey--text text--lighten-2 caption mr-2" fill-height>
         <v-switch
@@ -52,9 +53,11 @@
 <script>
 export default {
   props: [
+    'id',
     'title',
     'year',
     'isWatched',
+    'voteAverage',
     'trailer',
     'rating',
     'voteCount',
@@ -64,10 +67,17 @@ export default {
     dialog: false,
     notifications: false,
     sound: true,
-    widgets: false
-  }),
-  methods: {
+    widgets: false,
+    currentRating: null
 
+  }),
+  created () {
+    this.currentRating = this.rating
+  },
+  methods: {
+    // TODO: Set New Rating
+
+    // TODO: Set Watched Status
   }
 }
 </script>
