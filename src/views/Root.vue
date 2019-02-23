@@ -44,9 +44,7 @@
     </v-list>
     </v-navigation-drawer>
     <v-content>
-      <v-container fluid>
         <router-view />
-      </v-container>
     </v-content>
     <v-footer :inset="footer.inset" app>
       <span class="px-3">Made with <v-icon small color="red">favorite</v-icon>&nbsp;by StangLab</span>
