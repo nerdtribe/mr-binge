@@ -8,7 +8,8 @@
 				"rating": 3,
 				"isWatched": true,
 				"trailer": "u9Mv98Gr5pY",
-				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/sOHqdY1RnSn6kcfAHKu28jvTebE.jpg"
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/sOHqdY1RnSn6kcfAHKu28jvTebE.jpg",
+				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
 				"movieId": 2,
@@ -18,7 +19,8 @@
 				"rating": null,
 				"isWatched": false,
 				"trailer": "SUXWAEX2jlg",
-				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/v3QyboWRoA4O9RbcsqH8tJMe8EB.jpg"
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/v3QyboWRoA4O9RbcsqH8tJMe8EB.jpg",
+				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
 				"movieId": 3,
@@ -28,7 +30,8 @@
 				"rating": 4,
 				"isWatched": true,
 				"trailer": "ctRK-4Vt7dA",
-				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/b5RMzLAyq5QW6GtN9sIeAEMLlBI.jpg"
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/b5RMzLAyq5QW6GtN9sIeAEMLlBI.jpg",
+				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
 				"movieId": 4,
@@ -38,7 +41,8 @@
 				"rating": null,
 				"isWatched": false,
 				"trailer": "SUXWAEX2jlg",
-				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/xRWht48C2V8XNfzvPehyClOvDni.jpg"
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/xRWht48C2V8XNfzvPehyClOvDni.jpg",
+				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
 				"movieId": 5,
@@ -48,7 +52,8 @@
 				"rating": 6,
 				"isWatched": true,
 				"trailer": "u9Mv98Gr5pY",
-				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/svIDTNUoajS8dLEo7EosxvyAsgJ.jpg"
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/svIDTNUoajS8dLEo7EosxvyAsgJ.jpg",
+				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
 				"movieId": 6,
@@ -58,7 +63,8 @@
 				"rating": null,
 				"isWatched": false,
 				"trailer": "SUXWAEX2jlg",
-				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/lHu1wtNaczFPGFDTrjCSzeLPTKN.jpg"
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/lHu1wtNaczFPGFDTrjCSzeLPTKN.jpg",
+				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
 				"movieId": 7,
@@ -68,7 +74,8 @@
 				"rating": 7.2,
 				"isWatched": true,
 				"trailer": "ctRK-4Vt7dA",
-				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/7BsvSuDQuoqhWmU2fL7W2GOcZHU.jpg"
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/7BsvSuDQuoqhWmU2fL7W2GOcZHU.jpg",
+				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
 				"movieId": 8,
@@ -78,7 +85,8 @@
 				"rating": null,
 				"isWatched": false,
 				"trailer": "u9Mv98Gr5pY",
-				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/2uNW4WbgBXL25BAbXGLnLqX71Sw.jpg"
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/2uNW4WbgBXL25BAbXGLnLqX71Sw.jpg",
+				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			}
 		],
 		"tv": []
