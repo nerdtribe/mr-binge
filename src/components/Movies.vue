@@ -90,10 +90,10 @@ export default {
     isDialogDisplayed: false,
     localMovies: [],
     drawer: null,
-        items: [
-          { title: 'Home', icon: 'dashboard' },
-          { title: 'About', icon: 'question_answer' }
-        ]
+    items: [
+      { title: 'Home', icon: 'dashboard' },
+      { title: 'About', icon: 'question_answer' }
+    ]
   }),
   created () {
     // Retrieve list of local movies from the store
