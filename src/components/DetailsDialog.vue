@@ -57,8 +57,7 @@ export default {
     'trailer',
     'rating',
     'voteCount',
-    'description',
-    'isWatched'
+    'description'
   ],
   data: () => ({
     dialog: false,
