@@ -2,31 +2,30 @@
 	"data": {
 		"tmdbApiInitialSearch": [
 			{
-				"movieId": 6732,
+				"id": 6732,
 				"year": "2011",
 				"title": "Green Lantern",
 				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/zUSEYp9G7Hk9GZIfbPoOiSHvwHV.jpg"
 			},
 			{
-				"movieId": 45123,
+				"id": 45123,
 				"year": "2010",
 				"title": "RED",
 				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/q2mwTRKrq1etP9S4SZVDIJq0wI2.jpg"
 			}
 		],
 		"tmdbApiDetail": {
-			"movieId": 6732,
+			"id": 6732,
 			"year": "2011",
 			"title": "Green Lantern",
-			"voteAverage": 7,
+			"voteAverage": 51,
 			"voteCount": 6654,
-			"rating": 51,
 			"trailer": "tRplNRHOtS0",
 			"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/zUSEYp9G7Hk9GZIfbPoOiSHvwHV.jpg",
 			"description": "For centuries, a small but powerful force of warriors called the Green Lantern Corps has sworn to keep intergalactic order. Each Green Lantern wears a ring that grants him superpowers. But when a new enemy called Parallax threatens to destroy the balance of power in the Universe, their fate and the fate of Earth lie in the hands of the first human ever recruited."
 		},
 		"movies": [{
-				"movieId": 1,
+				"id": 1,
 				"year": "2014",
 				"title": "The Green Mile",
 				"voteAverage": 7,
@@ -38,7 +37,7 @@
 				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
-				"movieId": 2,
+				"id": 2,
 				"year": "2014",
 				"title": "Creed II",
 				"voteAverage": 5.4,
@@ -50,7 +49,7 @@
 				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
-				"movieId": 3,
+				"id": 3,
 				"year": "2014",
 				"title": "Mary Queen of Scots",
 				"voteAverage": 2,
@@ -62,7 +61,7 @@
 				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
-				"movieId": 4,
+				"id": 4,
 				"year": "2014",
 				"title": "Alita Battle Angel",
 				"voteAverage": 6.2,
@@ -74,7 +73,7 @@
 				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
-				"movieId": 5,
+				"id": 5,
 				"year": "2014",
 				"title": "Glass",
 				"voteAverage": 6.7,
@@ -86,7 +85,7 @@
 				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
-				"movieId": 6,
+				"id": 6,
 				"year": "2014",
 				"title": "Bohemian Rhapsody",
 				"voteAverage": 8.1,
@@ -98,7 +97,7 @@
 				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
-				"movieId": 7,
+				"id": 7,
 				"year": "2014",
 				"title": "Green Book",
 				"voteAverage": 2,
@@ -110,7 +109,7 @@
 				"description": "This is where the movie description will go. Generally it is a few sentences long and contains a bit of fun chat about the movie."
 			},
 			{
-				"movieId": 8,
+				"id": 8,
 				"year": "2014",
 				"title": "Venom",
 				"voteAverage": 6.6,
