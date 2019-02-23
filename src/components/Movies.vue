@@ -7,12 +7,13 @@
         hide-details
         prepend-inner-icon="search"
         label="Search Local Movies"
+        v-model="searchInput"
       ></v-text-field>
     </v-flex>
     <v-flex>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
-          <v-flex v-for="movie in localMovies" :key="movie.movieId" xs4 md2 lg1 d-flex class="movie-img">
+          <v-flex v-for="movie in filteredList" :key="movie.movieId" xs4 md2 lg1 d-flex class="movie-img">
             <v-card flat tile color="transparent">
               <v-img :src="movie.poster" :aspect-ratio="2/3" @click.prevent="selectMovie(movie.movieId)"></v-img>
               <v-card-actions>
@@ -42,7 +43,7 @@
       temporary
       right
     >
-      <v-list class="pa-1">
+      <v-list class="pa-1 my-1">
         <v-list-tile>
           <v-list-tile-content class="pa-1">
             <v-text-field
@@ -51,26 +52,43 @@
               hide-details
               prepend-inner-icon="search"
               label="TMDB Movies"
+              v-model="searchInputTmdb"
             ></v-text-field>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
 
-      <v-card v-for="movie in localMovies" :key="movie.id" height="100" flat>
-        <v-layout align-end>
-          <v-flex xs-2 class="pa-1">
-            <v-img :src="movie.poster" :aspect-ratio="2/3"></v-img>
-          </v-flex>
-          <v-flex xs-6>
-            {{ movie.title }}
-            (1996)
-          </v-flex>
-          <v-flex xs-4>
-            <v-icon>remove_red_eye</v-icon>
-            <v-icon>add_to_queue</v-icon>
-          </v-flex>
-        </v-layout>
-      </v-card>
+      <v-flex xs12 v-for="result in filterTmdbList" :key="result.id">
+        <v-card color="secondary lighten-2" class="white--text ma-2">
+          <v-layout>
+            <v-flex xs5>
+              <v-img
+                :src="result.poster"
+                height="125px"
+                contain
+              ></v-img>
+            </v-flex>
+            <v-flex xs7>
+              <v-card-title primary-title>
+                <div>
+                  <div class="headline">{{ result.title }}</div>
+                  <div>({{ result.year }})</div>
+                </div>
+              </v-card-title>
+            </v-flex>
+          </v-layout>
+          <v-divider light></v-divider>
+          <v-card-actions class="pa-3">
+            <v-btn flat small @click.prevent="viewTmdbDetail(result.movieId)">
+              Details
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn flat small color="primary lighten-2" @click.prevent="addTmdbMovie(result.movieId)">
+              Add to Library
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
     </v-navigation-drawer>
 
     <v-dialog v-model="isDialogDisplayed" transition="dialog-bottom-transition" lazy>
@@ -90,6 +108,8 @@ export default {
     isDialogDisplayed: false,
     localMovies: [],
     drawer: null,
+    searchInput: '',
+    searchInputTmdb: '',
     items: [
       { title: 'Home', icon: 'dashboard' },
       { title: 'About', icon: 'question_answer' }
@@ -99,15 +119,38 @@ export default {
     // Retrieve list of local movies from the store
     this.localMovies = this.$store.state.localData.movies
   },
+  computed: {
+    filteredList () {
+      return this.localMovies.filter(movie => {
+        return movie.title.toLowerCase().includes(this.searchInput.toLowerCase())
+      })
+    },
+    filterTmdbList () {
+      // TODO: Tie in API call
+      return this.$store.state.localData.tmdbApiInitialSearch.filter(movie => {
+        return movie.title.toLowerCase().includes(this.searchInputTmdb.toLowerCase())
+      })
+    }
+  },
   methods: {
     selectMovie (id) {
-      // Fetch selected movie
-      this.populateStore(id)
+      // Filter local movies array and set the selected details to store
+      this.$store.state.selectedDetail = this.localMovies.filter(movie => movie.movieId === id)[0]
       // Open dialog display
       this.isDialogDisplayed = true
     },
-    populateStore (id) {
-      this.$store.state.selectedDetail = this.localMovies.filter(movie => movie.movieId === id)[0]
+    viewTmdbDetail (id) {
+      // TODO: Tie in API call
+      // Set the selected details to store
+      this.$store.state.selectedDetail = this.$store.state.localData.tmdbApiDetail
+      // Open dialog display
+      this.isDialogDisplayed = true
+    },
+    addTmdbMovie (id) {
+      // TODO: Tie in API call to get full details
+      // Set API return values to local movies DB
+      let newMovie = this.$store.state.localData.tmdbApiDetail
+      this.localMovies.push(newMovie)
     }
   }
 }
