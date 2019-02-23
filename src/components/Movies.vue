@@ -31,9 +31,48 @@
       right
       fab
       class="mr-4 mb-5"
+      @click.stop="drawer = !drawer"
     >
       <v-icon>add</v-icon>
     </v-btn>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+      right
+    >
+      <v-list class="pa-1">
+        <v-list-tile>
+          <v-list-tile-content class="pa-1">
+            <v-text-field
+              flat
+              solo-inverted
+              hide-details
+              prepend-inner-icon="search"
+              label="TMDB Movies"
+            ></v-text-field>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+
+      <v-card v-for="movie in localMovies" :key="movie.id" height="100" flat>
+        <v-layout align-end>
+          <v-flex xs-2 class="pa-1">
+            <v-img :src="movie.poster" :aspect-ratio="2/3"></v-img>
+          </v-flex>
+          <v-flex xs-6>
+            {{ movie.title }}
+            (1996)
+          </v-flex>
+          <v-flex xs-4>
+            <v-icon>remove_red_eye</v-icon>
+            <v-icon>add_to_queue</v-icon>
+          </v-flex>
+        </v-layout>
+      </v-card>
+    </v-navigation-drawer>
+
     <v-dialog v-model="isDialogDisplayed" transition="dialog-bottom-transition" lazy>
       <DetailsDialog @cancel="isDialogDisplayed = false" @delete="isDialogDisplayed = false" v-bind="this.$store.state.selectedDetail"/>
     </v-dialog>
@@ -49,7 +88,12 @@ export default {
   },
   data: () => ({
     isDialogDisplayed: false,
-    localMovies: []
+    localMovies: [],
+    drawer: null,
+        items: [
+          { title: 'Home', icon: 'dashboard' },
+          { title: 'About', icon: 'question_answer' }
+        ]
   }),
   created () {
     // Retrieve list of local movies from the store
