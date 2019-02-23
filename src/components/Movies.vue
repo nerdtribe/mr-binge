@@ -59,7 +59,7 @@
       </v-list>
 
       <v-flex xs12 v-for="result in filterTmdbList" :key="result.id">
-        <v-card color="secondary lighten-2" class="white--text ma-2">
+        <v-card color="secondary lighten-2" class="white--text ma-2 pa-1">
           <v-layout>
             <v-flex xs5>
               <v-img
@@ -78,7 +78,7 @@
             </v-flex>
           </v-layout>
           <v-divider light></v-divider>
-          <v-card-actions class="pa-3">
+          <v-card-actions class="pa-2">
             <v-btn flat small @click.prevent="viewTmdbDetail(result.movieId)">
               Details
             </v-btn>
