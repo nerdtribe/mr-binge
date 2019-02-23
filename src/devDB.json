@@ -1,7 +1,33 @@
 {
 	"data": {
+		"tmdbApiInitialSearch": [
+			{
+				"movieId": 6732,
+				"year": "2011",
+				"title": "Green Lantern",
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/zUSEYp9G7Hk9GZIfbPoOiSHvwHV.jpg"
+			},
+			{
+				"movieId": 45123,
+				"year": "2010",
+				"title": "RED",
+				"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/q2mwTRKrq1etP9S4SZVDIJq0wI2.jpg"
+			}
+		],
+		"tmdbApiDetail": {
+			"movieId": 6732,
+			"year": "2011",
+			"title": "Green Lantern",
+			"voteAverage": 7,
+			"voteCount": 6654,
+			"rating": 51,
+			"trailer": "tRplNRHOtS0",
+			"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/zUSEYp9G7Hk9GZIfbPoOiSHvwHV.jpg",
+			"description": "For centuries, a small but powerful force of warriors called the Green Lantern Corps has sworn to keep intergalactic order. Each Green Lantern wears a ring that grants him superpowers. But when a new enemy called Parallax threatens to destroy the balance of power in the Universe, their fate and the fate of Earth lie in the hands of the first human ever recruited."
+		},
 		"movies": [{
 				"movieId": 1,
+				"year": "2014",
 				"title": "The Green Mile",
 				"voteAverage": 7,
 				"voteCount": 111,
@@ -13,6 +39,7 @@
 			},
 			{
 				"movieId": 2,
+				"year": "2014",
 				"title": "Creed II",
 				"voteAverage": 5.4,
 				"voteCount": 111,
@@ -24,6 +51,7 @@
 			},
 			{
 				"movieId": 3,
+				"year": "2014",
 				"title": "Mary Queen of Scots",
 				"voteAverage": 2,
 				"voteCount": 111,
@@ -35,6 +63,7 @@
 			},
 			{
 				"movieId": 4,
+				"year": "2014",
 				"title": "Alita Battle Angel",
 				"voteAverage": 6.2,
 				"voteCount": 111,
@@ -46,6 +75,7 @@
 			},
 			{
 				"movieId": 5,
+				"year": "2014",
 				"title": "Glass",
 				"voteAverage": 6.7,
 				"voteCount": 111,
@@ -57,6 +87,7 @@
 			},
 			{
 				"movieId": 6,
+				"year": "2014",
 				"title": "Bohemian Rhapsody",
 				"voteAverage": 8.1,
 				"voteCount": 111,
@@ -68,6 +99,7 @@
 			},
 			{
 				"movieId": 7,
+				"year": "2014",
 				"title": "Green Book",
 				"voteAverage": 2,
 				"voteCount": 111,
@@ -79,6 +111,7 @@
 			},
 			{
 				"movieId": 8,
+				"year": "2014",
 				"title": "Venom",
 				"voteAverage": 6.6,
 				"voteCount": 111,
