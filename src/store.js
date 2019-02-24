@@ -5,15 +5,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    localData: null
-
+    localData: null,
+    selectedDetail: null
   },
   mutations: {
     change (state, localData) {
       state.localData = localData
+    },
+    details (state, selectedDetail) {
+      state.selectedDetail = selectedDetail
     }
   },
   actions: {
-    localData: state => state.localData
+    localData: state => state.localData,
+    selectedDetail: state => state.selectedDetail
   }
 })

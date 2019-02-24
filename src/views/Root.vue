@@ -15,16 +15,6 @@
           <v-list-tile-avatar>
             <img src="@/assets/logo.png">
           </v-list-tile-avatar>
-
-          <v-list-tile-content>
-            <v-list-tile-title>John Leider</v-list-tile-title>
-          </v-list-tile-content>
-
-          <v-list-tile-action>
-            <v-btn icon @click.stop="mini = !mini">
-              <v-icon>chevron_left</v-icon>
-            </v-btn>
-          </v-list-tile-action>
         </v-list-tile>
       </v-list>
     </v-toolbar>
@@ -44,9 +34,7 @@
     </v-list>
     </v-navigation-drawer>
     <v-content>
-      <v-container fluid>
         <router-view />
-      </v-container>
     </v-content>
     <v-footer :inset="footer.inset" app>
       <span class="px-3">Made with <v-icon small color="red">favorite</v-icon>&nbsp;by StangLab</span>
@@ -55,11 +43,12 @@
 </template>
 
 <script>
+import fs from 'fs'
+import path from 'path'
+
 export default {
   data: () => ({
     dark: true,
-    // TODO: Add production local db in users home dir
-    tempDB: 'src/devDB.json',
     primaryDrawer: {
       model: 'mini',
       type: 'permanent',
@@ -77,9 +66,9 @@ export default {
   }),
   created () {
     // Read in local database and store it
-    const fs = require('fs')
-    let json = JSON.parse(fs.readFileSync(this.tempDB, 'utf8'))
-    this.$store.commit('change', json.data)
+    // eslint-disable-next-line
+    let jsonFile = JSON.parse(fs.readFileSync(path.join(__static, '/devDB.json'), 'utf8'))
+    this.$store.commit('change', jsonFile.data)
   }
 }
 </script>
