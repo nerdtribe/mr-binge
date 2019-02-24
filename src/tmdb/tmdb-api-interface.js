@@ -30,7 +30,7 @@ let tmbdCall = (options, callback) => {
   request(options, (error, response, body) => {
     // Return error message since no return JSON exists to parse error message
     if (error) {
-      callback('Unable to connect to TMDb!')
+      callback('Unable to connect to TMDb!') // eslint-disable-line
       // Return error message for status code 401 and 404 from returned JSON
     } else if (response.statusCode === 401 || response.statusCode === 404) {
       callback(body.status_message)
