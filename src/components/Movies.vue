@@ -13,9 +13,9 @@
     <v-flex>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
-          <v-flex v-for="movie in filteredList" :key="movie.movieId" xs4 md2 lg1 d-flex class="movie-img">
+          <v-flex v-for="movie in filteredList" :key="movie.id" xs4 md2 lg1 d-flex class="movie-img">
             <v-card flat tile color="transparent">
-              <v-img :src="movie.poster" :aspect-ratio="2/3" @click.prevent="selectMovie(movie.movieId)"></v-img>
+              <v-img :src="movie.poster" :aspect-ratio="2/3" @click.prevent="selectMovie(movie.id)"></v-img>
               <v-card-actions>
                 <p class="body-1 mb-0">{{ movie.title }}</p>
               </v-card-actions>
@@ -79,11 +79,11 @@
           </v-layout>
           <v-divider light></v-divider>
           <v-card-actions class="pa-2">
-            <v-btn flat small @click.prevent="viewTmdbDetail(result.movieId)">
+            <v-btn flat small @click.prevent="viewTmdbDetail(result.id)">
               Details
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn flat small color="primary lighten-2" @click.prevent="addTmdbMovie(result.movieId)">
+            <v-btn flat small color="primary lighten-2" @click.prevent="addTmdbMovie(result.id)">
               Add to Library
             </v-btn>
           </v-card-actions>
@@ -109,11 +109,7 @@ export default {
     localMovies: [],
     drawer: null,
     searchInput: '',
-    searchInputTmdb: '',
-    items: [
-      { title: 'Home', icon: 'dashboard' },
-      { title: 'About', icon: 'question_answer' }
-    ]
+    searchInputTmdb: ''
   }),
   created () {
     // Retrieve list of local movies from the store
@@ -135,7 +131,7 @@ export default {
   methods: {
     selectMovie (id) {
       // Filter local movies array and set the selected details to store
-      this.$store.state.selectedDetail = this.localMovies.filter(movie => movie.movieId === id)[0]
+      this.$store.state.selectedDetail = this.localMovies.filter(movie => movie.id === id)[0]
       // Open dialog display
       this.isDialogDisplayed = true
     },
