@@ -53,11 +53,12 @@
 </template>
 
 <script>
+import fs from 'fs'
+import path from 'path'
+
 export default {
   data: () => ({
     dark: true,
-    // TODO: Add production local db in users home dir
-    tempDB: 'src/devDB.json',
     primaryDrawer: {
       model: 'mini',
       type: 'permanent',
@@ -75,9 +76,8 @@ export default {
   }),
   created () {
     // Read in local database and store it
-    const fs = require('fs')
-    let json = JSON.parse(fs.readFileSync(this.tempDB, 'utf8'))
-    this.$store.commit('change', json.data)
+    let jsonFile = JSON.parse(fs.readFileSync(path.join(/* legit use */__static, '/devDB.json'), 'utf8'))
+    this.$store.commit('change', jsonFile.data)
   }
 }
 </script>
