@@ -5,6 +5,7 @@
   "description": "Tbinge is a desktop movie/tv library written in Electron/Node.js.",
   "private": true,
   "scripts": {
+    "test": "mocha ./test/*.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
@@ -15,6 +16,7 @@
     "postuninstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "chai": "^4.2.0",
     "vue": "^2.5.22",
     "vue-router": "^3.0.1",
     "vue-youtube-embed": "^2.2.1",
