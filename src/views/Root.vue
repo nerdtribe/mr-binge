@@ -76,7 +76,8 @@ export default {
   }),
   created () {
     // Read in local database and store it
-    let jsonFile = JSON.parse(fs.readFileSync(path.join(/* legit use */__static, '/devDB.json'), 'utf8'))
+    // eslint-disable-next-line
+    let jsonFile = JSON.parse(fs.readFileSync(path.join(__static, '/devDB.json'), 'utf8'))
     this.$store.commit('change', jsonFile.data)
   }
 }
