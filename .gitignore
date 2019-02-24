@@ -22,3 +22,6 @@ yarn-error.log*
 
 #Electron-builder output
 /dist_electron
+
+#TMDB Authentication File
+src/tmdb/authentication.json
