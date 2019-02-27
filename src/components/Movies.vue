@@ -58,7 +58,7 @@
         </v-list-tile>
       </v-list>
 
-      <v-flex xs12 v-for="result in filterTmdbList" :key="result.id">
+      <!-- <v-flex xs12 v-for="result in filterTmdbList" :key="result.id">
         <v-card color="secondary lighten-2" class="white--text ma-2 pa-1">
           <v-layout>
             <v-flex xs5>
@@ -88,7 +88,7 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-flex>
+      </v-flex> -->
     </v-navigation-drawer>
 
     <v-dialog v-model="isDialogDisplayed" transition="dialog-bottom-transition" lazy>
@@ -99,6 +99,8 @@
 
 <script>
 import DetailsDialog from '@/components/DetailsDialog'
+import _ from 'lodash'
+import tmdbSearch from '@/tmdb/search'
 
 export default {
   components: {
@@ -107,6 +109,7 @@ export default {
   data: () => ({
     isDialogDisplayed: false,
     localMovies: [],
+    searchMovies: [],
     drawer: null,
     searchInput: '',
     searchInputTmdb: ''
@@ -114,18 +117,19 @@ export default {
   created () {
     // Retrieve list of local movies from the store
     this.localMovies = this.$store.state.localData.movies
+    // Set timeout for the tmdb movie search
+    this.debouncedSearchTMDB = _.debounce(this.searchTMDB, 1500)
   },
   computed: {
     filteredList () {
       return this.localMovies.filter(movie => {
         return movie.title.toLowerCase().includes(this.searchInput.toLowerCase())
       })
-    },
-    filterTmdbList () {
-      // TODO: Tie in API call
-      return this.$store.state.localData.tmdbApiInitialSearch.filter(movie => {
-        return movie.title.toLowerCase().includes(this.searchInputTmdb.toLowerCase())
-      })
+    }
+  },
+  watch: {
+    searchInputTmdb: function (searchInput) {
+      this.debouncedSearchTMDB()
     }
   },
   methods: {
@@ -141,6 +145,11 @@ export default {
       this.$store.state.selectedDetail = this.$store.state.localData.tmdbApiDetail
       // Open dialog display
       this.isDialogDisplayed = true
+    },
+    searchTMDB () {
+      tmdbSearch.searchTMDB(this.searchInputTmdb, false, (errorMessage, searchResults) => {
+        console.log(searchResults);
+      })
     },
     addTmdbMovie (id) {
       // TODO: Tie in API call to get full details
