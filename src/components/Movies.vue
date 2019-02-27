@@ -58,12 +58,12 @@
         </v-list-tile>
       </v-list>
 
-      <!-- <v-flex xs12 v-for="result in filterTmdbList" :key="result.id">
+      <v-flex xs12 v-for="result in searchResults" :key="result.id">
         <v-card color="secondary lighten-2" class="white--text ma-2 pa-1">
           <v-layout>
             <v-flex xs5>
-              <v-img
-                :src="result.poster"
+              <v-img v-if="!(result.poster_path===null)"
+                :src=getPosterURL(result.poster_path)
                 height="125px"
                 contain
               ></v-img>
@@ -71,8 +71,8 @@
             <v-flex xs7>
               <v-card-title primary-title>
                 <div>
-                  <div class="headline">{{ result.title }}</div>
-                  <div>({{ result.year }})</div>
+                  <div class="headline">{{result.title}}</div>
+                  <div v-if="!(result.release_date==='')">({{ result.release_date.substring(0, 4) }})</div>
                 </div>
               </v-card-title>
             </v-flex>
@@ -88,7 +88,7 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-flex> -->
+      </v-flex>
     </v-navigation-drawer>
 
     <v-dialog v-model="isDialogDisplayed" transition="dialog-bottom-transition" lazy>
@@ -109,7 +109,7 @@ export default {
   data: () => ({
     isDialogDisplayed: false,
     localMovies: [],
-    searchMovies: [],
+    searchResults: [],
     drawer: null,
     searchInput: '',
     searchInputTmdb: ''
@@ -148,7 +148,8 @@ export default {
     },
     searchTMDB () {
       tmdbSearch.searchTMDB(this.searchInputTmdb, false, (errorMessage, searchResults) => {
-        console.log(searchResults);
+        console.log(searchResults)
+        this.searchResults = searchResults.results
       })
     },
     addTmdbMovie (id) {
@@ -156,6 +157,9 @@ export default {
       // Set API return values to local movies DB
       let newMovie = this.$store.state.localData.tmdbApiDetail
       this.localMovies.push(newMovie)
+    },
+    getPosterURL (posterPath) {
+      return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath
     }
   }
 }
