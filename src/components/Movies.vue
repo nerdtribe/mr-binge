@@ -166,7 +166,6 @@ export default {
           this.errorMessage = errorMessage
           this.isSearchError = true
         } else {
-          // console.log(searchResults)
           this.searchResults = searchResults.results
         }
       })
