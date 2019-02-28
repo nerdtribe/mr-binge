@@ -58,6 +58,14 @@
         </v-list-tile>
       </v-list>
 
+      <v-alert
+        v-model="isSearchError"
+        type="error"
+        outline
+        >
+          {{ errorMessage }}
+      </v-alert>
+
       <v-flex xs12 v-for="result in searchResults" :key="result.id">
         <v-card color="secondary lighten-2" class="white--text ma-2 pa-1">
           <v-layout>
@@ -108,11 +116,13 @@ export default {
   },
   data: () => ({
     isDialogDisplayed: false,
+    isSearchError: false,
     localMovies: [],
     searchResults: [],
     drawer: null,
     searchInput: '',
-    searchInputTmdb: ''
+    searchInputTmdb: '',
+    errorMessage: ''
   }),
   created () {
     // Retrieve list of local movies from the store
@@ -147,9 +157,18 @@ export default {
       this.isDialogDisplayed = true
     },
     searchTMDB () {
+      // Reset error message whenever a new search is ran
+      this.errorMessage = ''
+      this.isSearchError = false
+
       tmdbSearch.searchTMDB(this.searchInputTmdb, false, (errorMessage, searchResults) => {
-        console.log(searchResults)
-        this.searchResults = searchResults.results
+        if (errorMessage) {
+          this.errorMessage = errorMessage
+          this.isSearchError = true
+        } else {
+          // console.log(searchResults)
+          this.searchResults = searchResults.results
+        }
       })
     },
     addTmdbMovie (id) {
