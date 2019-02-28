@@ -34,7 +34,7 @@ let tmbdCall = (options, callback) => {
       callback('Unable to connect to TMDb!') // eslint-disable-line
       // Return error message for status code 401 and 404 from returned JSON
     } else if (response.statusCode === 401 || response.statusCode === 404) {
-      callback(body.status_message)
+      callback(JSON.parse(body).status_message)
       // Return object of 'body' or 'response' if no error in transaction
     } else {
       // Return 'body' if API call is a GET request
