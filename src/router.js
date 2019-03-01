@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Movies from './components/Movies.vue'
+// import Movies from './components/Movies.vue'
+import MediaList from './components/MediaList.vue'
 
 Vue.use(Router)
 
@@ -11,7 +12,8 @@ export default new Router({
     {
       path: '/',
       name: 'movies',
-      component: Movies
+      component: MediaList,
+      props: { mediaType: 'Movies' }
     },
     {
       path: '/tv',
