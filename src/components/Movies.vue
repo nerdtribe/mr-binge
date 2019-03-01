@@ -107,7 +107,7 @@
 
 <script>
 import DetailsDialog from '@/components/DetailsDialog'
-import _ from 'lodash'
+import debounce from 'lodash/debounce'
 import tmdbSearch from '@/tmdb/search'
 
 export default {
@@ -128,7 +128,7 @@ export default {
     // Retrieve list of local movies from the store
     this.localMovies = this.$store.state.localData.movies
     // Set timeout for the tmdb movie search
-    this.debouncedSearchTMDB = _.debounce(this.searchTMDB, 1500)
+    this.debouncedSearchTMDB = debounce(this.searchTMDB, 1500)
   },
   computed: {
     filteredList () {
