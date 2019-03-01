@@ -13,11 +13,11 @@
     <v-flex>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
-          <v-flex v-for="movie in filteredList" :key="movie.id" xs4 md2 lg1 d-flex class="movie-img">
+          <v-flex v-for="entry in filteredList" :key="entry.id" xs4 md2 lg1 d-flex class="entry-img">
             <v-card flat tile color="transparent">
-              <v-img :src="movie.poster" :aspect-ratio="2/3" @click.prevent="selectMovie(movie.id)"></v-img>
+              <v-img :src="entry.poster" :aspect-ratio="2/3" @click.prevent="selectEntry(entry.id)"></v-img>
               <v-card-actions>
-                <p class="body-1 mb-0">{{ movie.title }}</p>
+                <p class="body-1 mb-0">{{ entry.title }}</p>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -51,7 +51,7 @@
               solo-inverted
               hide-details
               prepend-inner-icon="search"
-              label="TMDB Movies"
+              v-bind:label="'TMDB ' + mediaType"
               v-model="searchInputTmdb"
             ></v-text-field>
           </v-list-tile-content>
@@ -79,8 +79,8 @@
             <v-flex xs7>
               <v-card-title primary-title>
                 <div>
-                  <div class="headline">{{result.title}}</div>
-                  <div v-if="!(result.release_date==='')">({{ result.release_date.substring(0, 4) }})</div>
+                  <div class="headline">{{result[titleNameFormat]}}</div>
+                  <div v-if="!(result[releaseDateFormat]==='')">({{ result[releaseDateFormat].substring(0, 4) }})</div>
                 </div>
               </v-card-title>
             </v-flex>
@@ -91,7 +91,7 @@
               Details
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn flat small color="primary lighten-2" @click.prevent="addTmdbMovie(result.id)">
+            <v-btn flat small color="primary lighten-2" @click.prevent="addTmdbEntry(result.id)">
               Add to Library
             </v-btn>
           </v-card-actions>
@@ -117,36 +117,48 @@ export default {
   data: () => ({
     isDialogDisplayed: false,
     isSearchError: false,
-    localMovies: [],
+    localMedia: [],
     searchResults: [],
     drawer: null,
     searchInput: '',
     searchInputTmdb: '',
     errorMessage: ''
   }),
-  props: ['mediaType'],
+  props: ['mediaType', 'titleNameFormat', 'releaseDateFormat', 'isTV'],
   created () {
-    // Retrieve list of local movies from the store
-    this.localMovies = this.$store.state.localData.movies
-    // Set timeout for the tmdb movie search
+    // Set timeout for the tmdb media search
     this.debouncedSearchTMDB = debounce(this.searchTMDB, 1500)
+    // Retrieve list of local media from the store
+    this.localMedia = this.$store.state.localData[this.mediaType.toLowerCase()]
+  },
+  updated () {
+    this.localMedia = this.$store.state.localData[this.mediaType.toLowerCase()]
   },
   computed: {
     filteredList () {
-      return this.localMovies.filter(movie => {
-        return movie.title.toLowerCase().includes(this.searchInput.toLowerCase())
+      return this.localMedia.filter(entry => {
+        return entry.title.toLowerCase().includes(this.searchInput.toLowerCase())
       })
     }
   },
   watch: {
     searchInputTmdb: function (searchInput) {
       this.debouncedSearchTMDB()
+    },
+    drawer: function () {
+      if (!this.drawer) {
+        this.searchResults = []
+        this.searchInputTmdb = ''
+      }
+    },
+    localMedia: function () {
+      this.searchInput = ''
     }
   },
   methods: {
-    selectMovie (id) {
-      // Filter local movies array and set the selected details to store
-      this.$store.state.selectedDetail = this.localMovies.filter(movie => movie.id === id)[0]
+    selectEntry (id) {
+      // Filter local media array and set the selected details to store
+      this.$store.state.selectedDetail = this.localMedia.filter(entry => entry.id === id)[0]
       // Open dialog display
       this.isDialogDisplayed = true
     },
@@ -162,7 +174,7 @@ export default {
       this.errorMessage = ''
       this.isSearchError = false
 
-      tmdbSearch.searchTMDB(this.searchInputTmdb, false, (errorMessage, searchResults) => {
+      tmdbSearch.searchTMDB(this.searchInputTmdb, this.isTV, (errorMessage, searchResults) => {
         if (errorMessage) {
           this.errorMessage = errorMessage
           this.isSearchError = true
@@ -171,11 +183,11 @@ export default {
         }
       })
     },
-    addTmdbMovie (id) {
+    addTmdbEntry (id) {
       // TODO: Tie in API call to get full details
-      // Set API return values to local movies DB
-      let newMovie = this.$store.state.localData.tmdbApiDetail
-      this.localMovies.push(newMovie)
+      // Set API return values to local media DB
+      let newEntry = this.$store.state.localData.tmdbApiDetail
+      this.localMedia.push(newEntry)
     },
     getPosterURL (posterPath) {
       return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath
@@ -185,6 +197,6 @@ export default {
 </script>
 
 <style lang="sass">
-.movie-img
+.entry-img
  cursor: pointer
 </style>

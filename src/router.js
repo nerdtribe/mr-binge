@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Movies from './components/Movies.vue'
 import MediaList from './components/MediaList.vue'
 
 Vue.use(Router)
@@ -13,16 +12,23 @@ export default new Router({
       path: '/',
       name: 'movies',
       component: MediaList,
-      props: { mediaType: 'Movies' }
+      props: {
+        mediaType: 'Movies',
+        titleNameFormat: 'title',
+        releaseDateFormat: 'release_date',
+        isTV: false
+      }
     },
     {
       path: '/tv',
       name: 'tv',
-      // route level code-splitting
-      // this generates a separate chunk (tv.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "tv" */ './components/Tv.vue')
+      component: MediaList,
+      props: {
+        mediaType: 'TV',
+        titleNameFormat: 'name',
+        releaseDateFormat: 'first_air_date',
+        isTV: true
+      }
     }
-
   ]
 })
