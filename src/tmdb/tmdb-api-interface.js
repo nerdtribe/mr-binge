@@ -10,8 +10,11 @@ const request = require('request')
 const path = require('path')
 
 // Declare and initialize TMDb API variables
-// eslint-disable-next-line
-const authentication = JSON.parse(fs.readFileSync(path.join(__static, 'authentication.json')))
+const tmdbFolder = path.resolve('./src/tmdb')
+const authentication = JSON.parse(fs.readFileSync(path.join(tmdbFolder, 'authentication.json'), 'utf8', (err, data) => {
+  if (err) alert(err.message)
+  else return data
+}))
 const baseURL = 'https://api.themoviedb.org/3/'
 
 // Declare and initialize new error to throw if required parameter is not input

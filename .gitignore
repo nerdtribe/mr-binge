@@ -24,4 +24,4 @@ yarn-error.log*
 /dist_electron
 
 #TMDB Authentication File
-public/authentication.json
+src/tmdb/authentication.json
