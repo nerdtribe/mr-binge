@@ -10,7 +10,11 @@ const request = require('request')
 const path = require('path')
 
 // Declare and initialize TMDb API variables
-const authentication = JSON.parse(fs.readFileSync(path.join(__dirname, 'authentication.json')))
+const tmdbFolder = path.resolve('./src/tmdb')
+const authentication = JSON.parse(fs.readFileSync(path.join(tmdbFolder, 'authentication.json'), 'utf8', (err, data) => {
+  if (err) alert(err.message)
+  else return data
+}))
 const baseURL = 'https://api.themoviedb.org/3/'
 
 // Declare and initialize new error to throw if required parameter is not input
@@ -33,7 +37,7 @@ let tmbdCall = (options, callback) => {
       callback('Unable to connect to TMDb!') // eslint-disable-line
       // Return error message for status code 401 and 404 from returned JSON
     } else if (response.statusCode === 401 || response.statusCode === 404) {
-      callback(body.status_message)
+      callback(JSON.parse(body).status_message)
       // Return object of 'body' or 'response' if no error in transaction
     } else {
       // Return 'body' if API call is a GET request

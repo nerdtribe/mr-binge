@@ -58,12 +58,20 @@
         </v-list-tile>
       </v-list>
 
-      <v-flex xs12 v-for="result in filterTmdbList" :key="result.id">
+      <v-alert
+        v-model="isSearchError"
+        type="error"
+        outline
+        >
+          {{ errorMessage }}
+      </v-alert>
+
+      <v-flex xs12 v-for="result in searchResults" :key="result.id">
         <v-card color="secondary lighten-2" class="white--text ma-2 pa-1">
           <v-layout>
             <v-flex xs5>
-              <v-img
-                :src="result.poster"
+              <v-img v-if="!(result.poster_path===null)"
+                :src=getPosterURL(result.poster_path)
                 height="125px"
                 contain
               ></v-img>
@@ -71,8 +79,8 @@
             <v-flex xs7>
               <v-card-title primary-title>
                 <div>
-                  <div class="headline">{{ result.title }}</div>
-                  <div>({{ result.year }})</div>
+                  <div class="headline">{{result.title}}</div>
+                  <div v-if="!(result.release_date==='')">({{ result.release_date.substring(0, 4) }})</div>
                 </div>
               </v-card-title>
             </v-flex>
@@ -99,6 +107,8 @@
 
 <script>
 import DetailsDialog from '@/components/DetailsDialog'
+import debounce from 'lodash/debounce'
+import tmdbSearch from '@/tmdb/search'
 
 export default {
   components: {
@@ -106,26 +116,30 @@ export default {
   },
   data: () => ({
     isDialogDisplayed: false,
+    isSearchError: false,
     localMovies: [],
+    searchResults: [],
     drawer: null,
     searchInput: '',
-    searchInputTmdb: ''
+    searchInputTmdb: '',
+    errorMessage: ''
   }),
   created () {
     // Retrieve list of local movies from the store
     this.localMovies = this.$store.state.localData.movies
+    // Set timeout for the tmdb movie search
+    this.debouncedSearchTMDB = debounce(this.searchTMDB, 1500)
   },
   computed: {
     filteredList () {
       return this.localMovies.filter(movie => {
         return movie.title.toLowerCase().includes(this.searchInput.toLowerCase())
       })
-    },
-    filterTmdbList () {
-      // TODO: Tie in API call
-      return this.$store.state.localData.tmdbApiInitialSearch.filter(movie => {
-        return movie.title.toLowerCase().includes(this.searchInputTmdb.toLowerCase())
-      })
+    }
+  },
+  watch: {
+    searchInputTmdb: function (searchInput) {
+      this.debouncedSearchTMDB()
     }
   },
   methods: {
@@ -142,11 +156,28 @@ export default {
       // Open dialog display
       this.isDialogDisplayed = true
     },
+    searchTMDB () {
+      // Reset error message whenever a new search is ran
+      this.errorMessage = ''
+      this.isSearchError = false
+
+      tmdbSearch.searchTMDB(this.searchInputTmdb, false, (errorMessage, searchResults) => {
+        if (errorMessage) {
+          this.errorMessage = errorMessage
+          this.isSearchError = true
+        } else {
+          this.searchResults = searchResults.results
+        }
+      })
+    },
     addTmdbMovie (id) {
       // TODO: Tie in API call to get full details
       // Set API return values to local movies DB
       let newMovie = this.$store.state.localData.tmdbApiDetail
       this.localMovies.push(newMovie)
+    },
+    getPosterURL (posterPath) {
+      return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath
     }
   }
 }
