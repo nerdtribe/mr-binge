@@ -96,8 +96,6 @@
 import DetailsDialog from '@/components/DetailsDialog'
 import debounce from 'lodash/debounce'
 import tmdbSearch from '@/tmdb/search'
-import fs from 'fs'
-import path from 'path'
 
 export default {
   components: {
@@ -116,20 +114,57 @@ export default {
   }),
   props: ['mediaType', 'titleNameFormat', 'releaseDateFormat', 'isTV'],
   created () {
-    // eslint-disable-next-line
-    const pathToDatabase = path.join(__static, '/database.json')
-    fs.readFile(pathToDatabase, 'utf8', (err, data) => {
-      if (err) alert(err.message)
-      this.localMedia = JSON.parse(data).filter(item => item.mediaType.toLowerCase() === this.mediaType.toLowerCase())
+    this.$db.loadDatabase(function (error) {
+      if (error) {
+        console.log('FATAL: Local database could not be loaded. Caused by: ' + error)
+        throw error
+      }
+      console.log('INFO: local database loaded successfully.')
     })
+
+    // DEBUG: Count all documents in the datastore
+    this.$db.count({}, function (error, count) {
+      if (error) {
+        console.log('FATAL: Caused by: ' + error)
+        throw error
+      }
+      console.log('Counted ', count, ' docs')
+    })
+
+    // DEBUG: Show all documents in the datastore
+    this.$db.find({ /* blank for find all */}, function (error, docs) {
+      if (error) {
+        console.log('FATAL: Caused by: ' + error.message)
+        throw error
+      }
+      console.log({ allDocs: docs })
+    })
+
+    this.$db.find({ mediaType: this.mediaType.toLowerCase() }, function (error, docs) {
+      if (error) {
+        console.log('FATAL: Caused by: ' + error.message)
+        throw error
+      }
+      try {
+        console.log({ filteredDocs: docs })
+        this.localMedia = docs // FIXME: localmedia is coming back as null
+        console.log({ localMedia: this.localMedia })
+      } catch (error) {
+        console.log('FATAL: Caused by: ' + error)
+      }
+    })
+
     // Set timeout for the tmdb media search
     this.debouncedSearchTMDB = debounce(this.searchTMDB, 1500)
   },
   computed: {
     filteredList () {
-      return this.localMedia.filter(entry => {
-        return entry.title.toLowerCase().includes(this.searchInput.toLowerCase())
-      })
+      if (this.localMedia !== undefined) {
+        return this.localMedia.filter(entry => {
+          return entry.title.toLowerCase().includes(this.searchInput.toLowerCase())
+        })
+      }
+      return ''
     }
   },
   watch: {
@@ -170,17 +205,17 @@ export default {
       })
     },
     addTmdbEntry (givenId) {
-      // eslint-disable-next-line
-      const pathToDatabase = path.join(__static, '/database.json')
       const media = this.searchResults.find(result => result.id === givenId)
+      console.log('Search Result', media)
       media.mediaType = this.mediaType.toLowerCase()
-      fs.readFile(pathToDatabase, 'utf8', (err, data) => {
-        if (err) alert(err.message)
-        const database = JSON.parse(data)
-        database.push(media)
-        fs.writeFile(pathToDatabase, JSON.stringify(database), 'utf8', (err, data) => {
-          if (err) alert(err.message)
-        })
+      var doc = media
+      this.$db.insert(doc, function (error, newDoc) {
+        if (error) {
+          console.log('ERROR: saving document: ' + { unsavedDoc: doc } + '. Caused by: ' + error)
+          throw error
+        }
+        console.log({ savedDoc: newDoc })
+        this.localMedia.push(newDoc)
       })
     },
     getPosterURL (posterPath) {

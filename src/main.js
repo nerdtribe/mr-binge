@@ -5,8 +5,10 @@ import router from './router'
 import store from './store'
 
 import VueYouTubeEmbed from 'vue-youtube-embed'
-Vue.use(VueYouTubeEmbed)
+import db from './datastore'
 
+Vue.prototype.$db = db
+Vue.use(VueYouTubeEmbed)
 Vue.config.productionTip = false
 
 new Vue({
