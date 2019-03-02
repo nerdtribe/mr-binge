@@ -168,16 +168,34 @@ export default {
     }
   },
   methods: {
+    // Shows a detailed view of an entry already in the user's database
     viewDetail (givenId) {
       this.selectedDetail = this.buildProps(this.localMedia.filter(item => item.id === givenId)[0])
       console.log(this.selectedDetail)
 
       this.isDialogDisplayed = true
     },
+    // Shows a detailed view of an entry in the TMDb search drawer
     viewTmdbDetail (givenId) {
-      this.selectedDetail = this.searchResults.find(result => result.id === givenId)
-      this.isDialogDisplayed = true
+      // Assign entry to a temp value
+      let mediaEntry = this.searchResults.filter(item => item.id === givenId)[0]
+
+      // Search for the trailer to show in the details window if not already found
+      if (!mediaEntry.trailer) {
+        this.getTrailer(mediaEntry, (trailerKey, component) => {
+          mediaEntry.trailer = trailerKey
+          component.selectedDetail = component.buildProps(mediaEntry)
+
+          component.isDialogDisplayed = true
+        })
+      // If trailer was already found in previous search, just show the details window
+      } else {
+        this.selectedDetail = this.buildProps(mediaEntry)
+
+        this.isDialogDisplayed = true
+      }
     },
+    // Searches TMDb website for a matching movie/TV show
     searchTMDB () {
       // Reset error message whenever a new search is ran
       this.errorMessage = ''
@@ -192,6 +210,7 @@ export default {
         }
       })
     },
+    // Adds the selected entry into the database
     addTmdbEntry (givenId) {
       // Load entry information into temp variable
       let media = this.searchResults.find(result => result.id === givenId)
@@ -237,17 +256,34 @@ export default {
         return releaseDate.substring(0, 4)
       }
     },
+    // Returns the trailer information for the input entry if found
+    getTrailer (entry, callback) {
+      tmdbSearch.detailedSearch(entry.id, this.isTV, (errorMessage, searchResults) => {
+        if (errorMessage) {
+          console.log(`Cannot get trailer: ${errorMessage}`)
+          callback(undefined, this)
+        } else {
+          console.log(searchResults)
+          if (searchResults.videos.results.length > 0) {
+            let trailers = searchResults.videos.results.filter(entry => entry.type === 'Trailer')
+            if (trailers) {
+              callback(trailers[0].key, this)
+            } else {
+              callback('', this)
+            }
+          } else callback('', this)
+        }
+      })
+    },
     // Builds object to pass to DetailsDialog as props
     buildProps (entry) {
-      console.log({ tentry: entry })
-
-      // TODO: Add trailer information into prop object
       let propObject = {
         id: entry.id,
         title: entry[this.titleNameFormat.toLowerCase()],
         year: this.getYear(entry),
         isWatched: entry.isWatched,
         voteAverage: entry.vote_average,
+        trailer: entry.trailer ? entry.trailer : '',
         rating: entry.rating ? entry.rating : 0,
         voteCount: entry.vote_count,
         description: entry.overview
