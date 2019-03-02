@@ -15,7 +15,7 @@
         <v-layout row wrap>
           <v-flex v-for="entry in filteredList" :key="entry.id" xs4 md2 lg1 d-flex class="entry-img">
             <v-card flat tile color="transparent">
-              <v-img :src="getPosterURL(entry.poster_path)" :aspect-ratio="2/3" @click.prevent="selectEntry(entry.id)"></v-img>
+              <v-img :src="getPosterURL(entry.poster_path)" :aspect-ratio="2/3" @click.prevent="viewDetail(entry.id)"></v-img>
               <v-card-actions>
                 <p class="body-1 mb-0">{{ entry.title }}</p>
               </v-card-actions>
@@ -67,7 +67,7 @@
               <v-card-title primary-title>
                 <div>
                   <div class="headline">{{result[titleNameFormat]}}</div>
-                  <div v-if="!(result[releaseDateFormat] === '')">({{ result[releaseDateFormat].substring(0, 4) }})</div>
+                  <div v-if="getYear(result) !== ''">({{ getYear(result) }})</div>
                 </div>
               </v-card-title>
             </v-flex>
@@ -114,6 +114,7 @@ export default {
   }),
   props: ['mediaType', 'titleNameFormat', 'releaseDateFormat', 'isTV'],
   created () {
+    // Loads the NeDB database for use
     this.$db.loadDatabase(function (error) {
       if (error) {
         console.log('FATAL: Local database could not be loaded. Caused by: ' + error)
@@ -131,34 +132,46 @@ export default {
     // Set timeout for the tmdb media search
     this.debouncedSearchTMDB = _.debounce(this.searchTMDB, 1500)
   },
-  updated () {
-    this.getLocalMedia((localMedia) => {
-      this.localMedia = localMedia
-    })
-  },
   computed: {
+    // Returns the list of TV Shows and Movies. If there is a value in the search bar,
+    // the return is a filtered array of all entries that include the input string
     filteredList () {
-      return this.localMedia
-      // return this.localMedia.filter(entry => entry[this.titleNameFormat].toLowerCase().includes(this.searchInput.toLowerCase()))
+      try {
+        return this.localMedia.filter(entry =>
+          entry[this.titleNameFormat].toLowerCase().includes(this.searchInput.toLowerCase()))
+      } catch (err) { return this.localMedia }
     }
   },
   watch: {
+    // When a user inputs a string to search TMDB, there is a 1.5 second
+    // delay after user stops typing to initiate the search
     searchInputTmdb: function (searchInput) {
-      this.debouncedSearchTMDB()
+      if (searchInput !== '') {
+        this.debouncedSearchTMDB()
+      }
     },
+    // When the search drawer closes, reset all data applicable data to default
     drawer: function () {
       if (!this.drawer) {
         this.searchResults = []
         this.searchInputTmdb = ''
+        this.isSearchError = false
+        this.errorMessage = ''
       }
+    },
+    // The change in value for 'isTV' triggers the shift in view between Movies and TV Shows
+    isTV: function () {
+      this.getLocalMedia((localMedia) => {
+        this.localMedia = localMedia
+      })
+      this.searchInput = ''
     }
-    // localMedia: function () {
-    //   this.searchInput = ''
-    // }
   },
   methods: {
-    selectEntry (givenId) {
-      this.selectedDetail = this.localMedia.filter(item => item.id === givenId)
+    viewDetail (givenId) {
+      this.selectedDetail = this.buildProps(this.localMedia.filter(item => item.id === givenId)[0])
+      console.log(this.selectedDetail);
+      
       this.isDialogDisplayed = true
     },
     viewTmdbDetail (givenId) {
@@ -180,29 +193,66 @@ export default {
       })
     },
     addTmdbEntry (givenId) {
+      // Load entry information into temp variable
       let media = this.searchResults.find(result => result.id === givenId)
-      console.log('Search Result', media)
-      media.mediaType = this.mediaType.toLowerCase()
-      this.$db.insert(media, function (error, newDoc) {
-        if (error) {
-          console.log('ERROR: saving document: ' + { unsavedDoc: doc } + '. Caused by: ' + error)
-          throw error
-        }
-        console.log({ savedDoc: newDoc })
-        this.localMedia.push(newDoc)
-      })
+
+      // Check to see if the entry is already stored in the database
+      if (this.localMedia.find(duplicate => duplicate.id === media.id)) {
+        alert(`${media[this.titleNameFormat.toLowerCase()]} is already stored in your database!`)
+      } else {
+        // Add additional properties to entry for use in local database functions
+        media.mediaType = this.mediaType.toLowerCase()
+        media.isWatched = false
+        media.rating = 0
+
+        // Insert new media entry into database
+        this.$db.insert(media, function (error, newDoc) {
+          if (error) {
+            console.log('ERROR: saving document: ' + { unsavedDoc: newDoc } + '. Caused by: ' + error)
+            throw error
+          }
+          this.localMedia.push(newDoc)
+        })
+      }
     },
+    // Returns the URL of the poster images
     getPosterURL (posterPath) {
       return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath
     },
+    // Returns an array of either all movies or all TV shows
     getLocalMedia (callback) {
       this.$db.find({ mediaType: this.mediaType.toLowerCase() }, function (error, docs) {
         if (error) {
-          console.log('FATAL: Caused by: ' + error.message)
           throw error
         }
-          callback(docs)
+        callback(docs)
       })
+    },
+    // Returns the applicable year in the correct format
+    getYear (entry) {
+      let releaseDate = entry[this.releaseDateFormat]
+      if (releaseDate === '') {
+        return ''
+      } else {
+        return releaseDate.substring(0, 4)
+      }
+    },
+    // Builds object to pass to DetailsDialog as props
+    buildProps (entry) {
+      console.log({tentry: entry});
+      
+      // TODO: Add trailer information into prop object
+      let propObject = {
+        id: entry.id,
+        title: entry[this.titleNameFormat.toLowerCase()],
+        year: this.getYear(entry),
+        isWatched: entry.isWatched,
+        voteAverage: entry.vote_average,
+        rating: entry.rating ? entry.rating : 0,
+        voteCount: entry. vote_count,
+        description: entry.overview
+      }
+      return propObject
     }
   }
 }
