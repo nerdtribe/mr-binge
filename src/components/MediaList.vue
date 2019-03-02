@@ -125,9 +125,6 @@ export default {
     // Set timeout for the tmdb media search
     this.debouncedSearchTMDB = debounce(this.searchTMDB, 1500)
   },
-  updated () {
-    this.localMedia = this.localMedia[this.mediaType.toLowerCase()]
-  },
   computed: {
     filteredList () {
       return this.localMedia.filter(entry => {
