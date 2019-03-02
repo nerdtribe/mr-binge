@@ -5,7 +5,7 @@
 *  Author: Kyle McCain
 *  Date: 19 February 2019
 */
-const fs = require('fs')
+// const fs = require('fs')
 const request = require('request')
 const path = require('path')
 
