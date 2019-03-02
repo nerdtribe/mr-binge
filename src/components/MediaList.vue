@@ -94,7 +94,7 @@
 
 <script>
 import DetailsDialog from '@/components/DetailsDialog'
-import debounce from 'lodash/debounce'
+import _ from 'lodash'
 import tmdbSearch from '@/tmdb/search'
 
 export default {
@@ -118,53 +118,28 @@ export default {
       if (error) {
         console.log('FATAL: Local database could not be loaded. Caused by: ' + error)
         throw error
+      } else {
+        console.log('INFO: local database loaded successfully.')
       }
-      console.log('INFO: local database loaded successfully.')
     })
 
-    // DEBUG: Count all documents in the datastore
-    this.$db.count({}, function (error, count) {
-      if (error) {
-        console.log('FATAL: Caused by: ' + error)
-        throw error
-      }
-      console.log('Counted ', count, ' docs')
-    })
-
-    // DEBUG: Show all documents in the datastore
-    this.$db.find({ /* blank for find all */}, function (error, docs) {
-      if (error) {
-        console.log('FATAL: Caused by: ' + error.message)
-        throw error
-      }
-      console.log({ allDocs: docs })
-    })
-
-    this.$db.find({ mediaType: this.mediaType.toLowerCase() }, function (error, docs) {
-      if (error) {
-        console.log('FATAL: Caused by: ' + error.message)
-        throw error
-      }
-      try {
-        console.log({ filteredDocs: docs })
-        this.localMedia = docs // FIXME: localmedia is coming back as null
-        console.log({ localMedia: this.localMedia })
-      } catch (error) {
-        console.log('FATAL: Caused by: ' + error)
-      }
+    // Initialize the local media list
+    this.getLocalMedia((localMedia) => {
+      this.localMedia = localMedia
     })
 
     // Set timeout for the tmdb media search
-    this.debouncedSearchTMDB = debounce(this.searchTMDB, 1500)
+    this.debouncedSearchTMDB = _.debounce(this.searchTMDB, 1500)
+  },
+  updated () {
+    this.getLocalMedia((localMedia) => {
+      this.localMedia = localMedia
+    })
   },
   computed: {
     filteredList () {
-      if (this.localMedia !== undefined) {
-        return this.localMedia.filter(entry => {
-          return entry.title.toLowerCase().includes(this.searchInput.toLowerCase())
-        })
-      }
-      return ''
+      return this.localMedia
+      // return this.localMedia.filter(entry => entry[this.titleNameFormat].toLowerCase().includes(this.searchInput.toLowerCase()))
     }
   },
   watch: {
@@ -176,10 +151,10 @@ export default {
         this.searchResults = []
         this.searchInputTmdb = ''
       }
-    },
-    localMedia: function () {
-      this.searchInput = ''
     }
+    // localMedia: function () {
+    //   this.searchInput = ''
+    // }
   },
   methods: {
     selectEntry (givenId) {
@@ -205,11 +180,10 @@ export default {
       })
     },
     addTmdbEntry (givenId) {
-      const media = this.searchResults.find(result => result.id === givenId)
+      let media = this.searchResults.find(result => result.id === givenId)
       console.log('Search Result', media)
       media.mediaType = this.mediaType.toLowerCase()
-      var doc = media
-      this.$db.insert(doc, function (error, newDoc) {
+      this.$db.insert(media, function (error, newDoc) {
         if (error) {
           console.log('ERROR: saving document: ' + { unsavedDoc: doc } + '. Caused by: ' + error)
           throw error
@@ -220,6 +194,15 @@ export default {
     },
     getPosterURL (posterPath) {
       return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath
+    },
+    getLocalMedia (callback) {
+      this.$db.find({ mediaType: this.mediaType.toLowerCase() }, function (error, docs) {
+        if (error) {
+          console.log('FATAL: Caused by: ' + error.message)
+          throw error
+        }
+          callback(docs)
+      })
     }
   }
 }
