@@ -170,8 +170,8 @@ export default {
   methods: {
     viewDetail (givenId) {
       this.selectedDetail = this.buildProps(this.localMedia.filter(item => item.id === givenId)[0])
-      console.log(this.selectedDetail);
-      
+      console.log(this.selectedDetail)
+
       this.isDialogDisplayed = true
     },
     viewTmdbDetail (givenId) {
@@ -239,8 +239,8 @@ export default {
     },
     // Builds object to pass to DetailsDialog as props
     buildProps (entry) {
-      console.log({tentry: entry});
-      
+      console.log({ tentry: entry })
+
       // TODO: Add trailer information into prop object
       let propObject = {
         id: entry.id,
@@ -249,7 +249,7 @@ export default {
         isWatched: entry.isWatched,
         voteAverage: entry.vote_average,
         rating: entry.rating ? entry.rating : 0,
-        voteCount: entry. vote_count,
+        voteCount: entry.vote_count,
         description: entry.overview
       }
       return propObject
