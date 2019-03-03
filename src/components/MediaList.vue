@@ -17,7 +17,7 @@
             <v-card flat tile color="transparent">
               <v-img :src="getPosterURL(entry.poster_path)" :aspect-ratio="2/3" @click.prevent="viewDetail(entry.id)"></v-img>
               <v-card-actions>
-                <p class="body-1 mb-0">{{ entry.title }}</p>
+                <p class="body-1 mb-0">{{ entry[titleNameFormat] }}</p>
               </v-card-actions>
             </v-card>
           </v-flex>
