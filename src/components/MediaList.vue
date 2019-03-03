@@ -87,7 +87,8 @@
     </v-navigation-drawer>
 
     <v-dialog v-model="isDialogDisplayed" transition="dialog-bottom-transition" lazy>
-      <DetailsDialog @cancel="isDialogDisplayed = false" @delete="isDialogDisplayed = false" v-bind="this.selectedDetail"/>
+      <DetailsDialog @cancel="isDialogDisplayed = false" @delete="isDialogDisplayed = false"
+      @requestDeletion="deleteEntry" v-bind="this.selectedDetail"/>
     </v-dialog>
   </v-layout>
 </template>
@@ -165,12 +166,21 @@ export default {
         this.localMedia = localMedia
       })
       this.searchInput = ''
+    },
+    // Whenever the detailed dialog box is closed, checks to see if local media has changed (deleted)
+    isDialogDisplayed: function () {
+      if (!this.isDialogDisplayed) {
+        this.getLocalMedia((localMedia) => {
+          this.localMedia = localMedia
+        })
+        this.searchInput = ''
+      }
     }
   },
   methods: {
     // Shows a detailed view of an entry already in the user's database
     viewDetail (givenId) {
-      this.selectedDetail = this.buildProps(this.localMedia.filter(item => item.id === givenId)[0])
+      this.selectedDetail = this.buildProps(this.localMedia.filter(item => item.id === givenId)[0], false)
 
       this.isDialogDisplayed = true
     },
@@ -183,7 +193,7 @@ export default {
       if (!mediaEntry.trailer) {
         this.getTrailer(mediaEntry, (trailerKey, component) => {
           mediaEntry.trailer = trailerKey
-          component.selectedDetail = component.buildProps(mediaEntry)
+          component.selectedDetail = component.buildProps(mediaEntry, true)
 
           component.isDialogDisplayed = true
         })
@@ -236,6 +246,17 @@ export default {
         })
       }
     },
+    // Deletes the selected entry from the database
+    deleteEntry (givenId) {
+      this.$db.remove({ id: givenId }, {}, function (error, numRemoved) {
+        if (error) {
+          console.log('ERROR: deleting document: ' + { idToDelete: givenId } + '. Caused by: ' + error)
+          throw error
+        }
+      })
+
+      this.isDialogDisplayed = false
+    },
     // Returns the URL of the poster images
     getPosterURL (posterPath) {
       return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath
@@ -277,7 +298,7 @@ export default {
       })
     },
     // Builds object to pass to DetailsDialog as props
-    buildProps (entry) {
+    buildProps (entry, isSearchDetail) {
       let propObject = {
         id: entry.id,
         title: entry[this.titleNameFormat.toLowerCase()],
@@ -287,7 +308,8 @@ export default {
         trailer: entry.trailer ? entry.trailer : '',
         rating: entry.rating ? entry.rating : 0,
         voteCount: entry.vote_count,
-        description: entry.overview
+        description: entry.overview,
+        isSearchDetail
       }
       return propObject
     }
