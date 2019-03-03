@@ -36,7 +36,7 @@ let detailedSearch = (id, isTV, callback) => {
   // Define options prior to passing it to the tmdbCall function
   let options = { method: 'GET',
     url: tmdb.getDetailedSearchURL(isTV) + id,
-    qs: { language: 'en-US' },
+    qs: { language: 'en-US', append_to_response: 'videos' },
     body: '{}'
   }
 

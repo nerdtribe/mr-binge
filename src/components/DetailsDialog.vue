@@ -7,13 +7,13 @@
         :rotate="360"
         :size="50"
         :width="8"
-        :value="voteAverage"
+        :value=Math.round(voteAverage*10)
         color="white"
       >
-      {{ voteAverage }}%
+      {{ Math.round(voteAverage*10) }}%
       </v-progress-circular>
       <v-toolbar-title class="subheading" extended>({{ voteCount }})</v-toolbar-title>
-      <v-btn flat icon color="white" class="mx-2" v-if="rating">
+      <v-btn flat icon color="white" class="mx-2" v-on:click="$emit('requestDeletion', id)" v-if="!isSearchDetail">
         <v-icon>delete</v-icon>
       </v-btn>
     </v-toolbar>
@@ -21,7 +21,7 @@
     <v-card-text>
       <v-layout align-center justify-center column fill-height>
         <p>{{ description }}</p>
-        <youtube :video-id="trailer"></youtube>
+        <youtube v-if="trailer" :video-id="trailer"></youtube>
       </v-layout>
     </v-card-text>
 
@@ -61,7 +61,8 @@ export default {
     'trailer',
     'rating',
     'voteCount',
-    'description'
+    'description',
+    'isSearchDetail'
   ],
   data: () => ({
     dialog: false,
@@ -71,9 +72,6 @@ export default {
     currentRating: null
 
   }),
-  created () {
-    this.currentRating = this.rating
-  },
   methods: {
     // TODO: Set New Rating
 
