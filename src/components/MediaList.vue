@@ -171,7 +171,6 @@ export default {
     // Shows a detailed view of an entry already in the user's database
     viewDetail (givenId) {
       this.selectedDetail = this.buildProps(this.localMedia.filter(item => item.id === givenId)[0])
-      console.log(this.selectedDetail)
 
       this.isDialogDisplayed = true
     },
@@ -224,13 +223,16 @@ export default {
         media.isWatched = false
         media.rating = 0
 
-        // Insert new media entry into database
-        this.$db.insert(media, function (error, newDoc) {
-          if (error) {
-            console.log('ERROR: saving document: ' + { unsavedDoc: newDoc } + '. Caused by: ' + error)
-            throw error
-          }
-          this.localMedia.push(newDoc)
+        // Insert new media entry into database after getting trailer
+        this.getTrailer(media, (trailer, component) => {
+          media.trailer = trailer
+          this.$db.insert(media, function (error, newDoc) {
+            if (error) {
+              console.log('ERROR: saving document: ' + { unsavedDoc: newDoc } + '. Caused by: ' + error)
+              throw error
+            }
+            component.localMedia.push(newDoc)
+          })
         })
       }
     },
@@ -263,7 +265,6 @@ export default {
           console.log(`Cannot get trailer: ${errorMessage}`)
           callback(undefined, this)
         } else {
-          console.log(searchResults)
           if (searchResults.videos.results.length > 0) {
             let trailers = searchResults.videos.results.filter(entry => entry.type === 'Trailer')
             if (trailers) {
