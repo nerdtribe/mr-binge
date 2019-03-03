@@ -12,7 +12,6 @@ const path = require('path')
 // Declare and initialize TMDb API variables
 // eslint-disable-next-line
 const tmdbFolder = path.join(__static, '/authentication.json')
-const authentication = { 'api_key': '8b909a48726feace74f6d707bf46a1ee' }
 const baseURL = 'https://api.themoviedb.org/3/'
 
 // Declare and initialize new error to throw if required parameter is not input
