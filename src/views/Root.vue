@@ -5,7 +5,7 @@
       :clipped="primaryDrawer.clipped"
       :floating="primaryDrawer.floating"
       :mini-variant="primaryDrawer.mini"
-      absolute
+      fixed
       overflow
       app
     >
