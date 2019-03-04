@@ -47,6 +47,7 @@
               flat
               solo-inverted
               hide-details
+              clearable
               prepend-inner-icon="search"
               v-bind:label="'TMDB ' + mediaType"
               v-model="searchInputTmdb"
