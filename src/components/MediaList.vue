@@ -13,7 +13,7 @@
     <v-flex>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
-          <v-flex v-for="entry in filteredList" :key="entry.id" xs4 md2 lg1 d-flex class="entry-img">
+          <v-flex v-for="entry in filteredList" :key="entry.id" xs4 md2 lg1 d-flex class="entry_img">
             <v-card flat tile color="transparent">
               <v-img :src="getPosterURL(entry.poster_path)" :aspect-ratio="2/3" @click.prevent="viewDetail(entry.id)"></v-img>
               <v-card-actions>
@@ -318,6 +318,6 @@ export default {
 </script>
 
 <style lang="sass">
-.entry-img
+.entry_img
  cursor: pointer
 </style>
