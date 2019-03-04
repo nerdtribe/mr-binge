@@ -38,7 +38,7 @@
       <v-icon>add</v-icon>
     </v-btn>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary right>
+    <v-navigation-drawer v-model="drawer" absolute temporary right height="100vh">
       <v-list class="pa-1 my-1">
         <v-list-tile>
           <v-list-tile-content class="pa-1">
