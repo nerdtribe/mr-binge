@@ -28,6 +28,7 @@
       color="primary"
       dark
       absolute
+      fixed
       bottom
       right
       fab
