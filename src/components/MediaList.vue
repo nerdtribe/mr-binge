@@ -13,8 +13,8 @@
     <v-flex>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
-          <v-flex v-for="entry in filteredList" :key="entry.id" xs4 md2 lg1 d-flex class="entry_img">
-            <v-card flat tile color="transparent">
+          <v-flex v-for="entry in filteredList" :key="entry.id" xs4 md2 lg1 d-flex class="entry-img">
+            <v-card flat tile>
               <v-img :src="getPosterURL(entry.poster_path)" :aspect-ratio="2/3" @click.prevent="viewDetail(entry.id)"></v-img>
               <v-card-actions>
                 <p class="body-1 mb-0">{{ entry[titleNameFormat] }}</p>
@@ -259,7 +259,9 @@ export default {
     },
     // Returns the URL of the poster images
     getPosterURL (posterPath) {
-      return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath
+      if (posterPath)
+        return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath
+      return require('@/assets/noimg.png')
     },
     // Returns an array of either all movies or all TV shows
     getLocalMedia (callback) {
@@ -318,6 +320,6 @@ export default {
 </script>
 
 <style lang="sass">
-.entry_img
- cursor: pointer
+.entry-img
+  cursor: pointer
 </style>
