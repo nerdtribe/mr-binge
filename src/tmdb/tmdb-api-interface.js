@@ -15,13 +15,12 @@ const tmdbFolder = path.join(__static, '/authentication.json')
 const authentication = { 'api_key': '' }
 const baseURL = 'https://api.themoviedb.org/3/'
 
-// Declare and initialize new error to throw if required parameter is not input
+// Declare and initialize new error to throw if required parameter is not inputz
 const isRequired = () => { throw new Error('Parameter is required!') }
 
 // Function that calls TMDb API with the input options
 let tmbdCall = (options, callback) => {
   // Adds the API key to 'options' prior to calling API
-  if (authentication.api_key === '') alert('Api key is missing!')
   options.qs.api_key = authentication.api_key
 
   // Adds the guest session id to 'options' if conducting a POST request
