@@ -5,6 +5,7 @@
         flat
         solo-inverted
         hide-details
+        clearable
         prepend-inner-icon="search"
         v-bind:label="'Search Local ' + mediaType"
         v-model="searchInput"
