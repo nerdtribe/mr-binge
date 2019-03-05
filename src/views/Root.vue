@@ -1,10 +1,10 @@
 <template>
-  <v-app id="sandbox" :dark="dark">
+  <v-app id="sandbox" dark>
     <v-navigation-drawer
-      :permanent="primaryDrawer.type"
-      :clipped="primaryDrawer.clipped"
-      :floating="primaryDrawer.floating"
-      :mini-variant="primaryDrawer.mini"
+      permanent
+      clipped
+      floating
+      mini-variant
       fixed
       overflow
       app
@@ -36,7 +36,7 @@
     <v-content>
         <router-view />
     </v-content>
-    <v-footer :inset="footer.inset" app>
+    <v-footer inset app>
       <span class="px-3">Made with <v-icon small color="red">favorite</v-icon>&nbsp;by StangLab</span>
     </v-footer>
   </v-app>
@@ -45,21 +45,10 @@
 <script>
 export default {
   data: () => ({
-    dark: true,
-    primaryDrawer: {
-      model: 'mini',
-      type: 'permanent',
-      clipped: true,
-      floating: true,
-      mini: true
-    },
     items: [
       { title: 'Movies', icon: 'movie', link: '/' },
       { title: 'TV', icon: 'live_tv', link: '/tv' }
-    ],
-    footer: {
-      inset: true
-    }
+    ]
   })
 }
 </script>
