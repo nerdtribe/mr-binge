@@ -81,7 +81,7 @@
               Details
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn flat small color="primary lighten-2" @click.prevent="addTmdbEntry(result.id)">
+            <v-btn flat small color="primary lighten-2" @click.once.prevent="addTmdbEntry(result.id)">
               Add to Library
             </v-btn>
           </v-card-actions>
