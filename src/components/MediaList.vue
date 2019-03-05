@@ -1,6 +1,6 @@
 <template>
   <v-layout justify-center column>
-    <v-flex class="pa-2">
+      <v-toolbar fixed flat dark class="searchbar">
       <v-text-field
         flat
         solo-inverted
@@ -10,9 +10,9 @@
         v-bind:label="'Search Local ' + mediaType"
         v-model="searchInput"
       ></v-text-field>
-    </v-flex>
+    </v-toolbar>
     <v-flex>
-      <v-container grid-list-md fluid>
+      <v-container grid-list-md fluid mt-5>
         <v-layout row wrap>
           <v-flex v-for="entry in filteredList" :key="entry.id" xs4 md2 lg1 d-flex class="entry-img">
             <v-card flat tile>
@@ -325,4 +325,6 @@ export default {
 <style lang="sass">
 .entry-img
   cursor: pointer
+.searchbar
+  padding-left: 75px !important
 </style>
