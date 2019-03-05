@@ -312,7 +312,7 @@ export default {
         } else {
           if (searchResults.videos.results.length > 0) {
             let trailers = searchResults.videos.results.filter(entry => entry.type === 'Trailer')
-            if (trailers) {
+            if (trailers.length !== 0) {
               callback(trailers[0].key, this)
             } else {
               callback('', this)
