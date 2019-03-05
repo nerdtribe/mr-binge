@@ -9,29 +9,25 @@
       overflow
       app
     >
-    <v-toolbar flat class="transparent">
-      <v-list class="pa-0">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="@/assets/logo.png">
-          </v-list-tile-avatar>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
-
-    <v-list class="pt-0" dense>
-      <v-divider></v-divider>
-
-      <v-list-tile v-for="item in items" :key="item.title" :to="item.link">
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
-
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
+      <v-toolbar flat class="transparent">
+        <v-list class="mt-5 pa-0">
+          <v-list-tile>
+            <v-list-tile-avatar size="50">
+              <img src="@/assets/logo.png">
+            </v-list-tile-avatar>
+          </v-list-tile>
+          <v-list-tile to="/" class="mt-5">
+            <v-list-tile-avatar>
+              <img src="@/assets/movie.png">
+            </v-list-tile-avatar>
+          </v-list-tile>
+          <v-list-tile to="/tv" class="mt-3">
+            <v-list-tile-avatar>
+              <img src="@/assets/tv.png">
+            </v-list-tile-avatar>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
     </v-navigation-drawer>
     <v-content>
         <router-view />
@@ -45,14 +41,12 @@
 <script>
 export default {
   data: () => ({
-    items: [
-      { title: 'Movies', icon: 'movie', link: '/' },
-      { title: 'TV', icon: 'live_tv', link: '/tv' }
-    ]
+
   })
 }
 </script>
 
 <style lang="sass">
-
+.tile
+  margin: 10px 0
 </style>
