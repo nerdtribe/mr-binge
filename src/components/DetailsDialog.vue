@@ -13,7 +13,7 @@
       {{ Math.round(voteAverage*10) }}%
       </v-progress-circular>
       <v-toolbar-title class="subheading" extended>({{ voteCount }})</v-toolbar-title>
-      <v-btn flat icon color="white" class="mx-2" v-on:click="$emit('requestDeletion', id)" v-if="!isSearchDetail">
+      <v-btn flat icon color="white" class="mx-2" @click="$emit('requestDeletion', id)" v-if="!isSearchDetail">
         <v-icon>delete</v-icon>
       </v-btn>
     </v-toolbar>
@@ -25,23 +25,25 @@
       </v-layout>
     </v-card-text>
 
-    <v-card-actions fill-height class="pa-3" v-if="rating">
-      <v-rating
-        v-model="rating"
+    <v-card-actions v-if="!isSearchDetail" fill-height class="pa-3">
+      <div>
+        <v-rating
+        v-model="currentRating"
         background-color="white"
         color="yellow accent-4"
         dense
         half-increments
         hover
         size="32"
-      ></v-rating>
-      {{ rating }}
+        ></v-rating>
+      </div>
+      {{ currentRating }}
       <v-spacer></v-spacer>
       <span class="grey--text text--lighten-2 caption mr-2" fill-height>
         <v-switch
           label="Watched"
           color="success"
-          :value="isWatched"
+          v-model="currentWatched"
           hide-details
           align-center
         ></v-switch>
@@ -62,20 +64,38 @@ export default {
     'rating',
     'voteCount',
     'description',
-    'isSearchDetail'
+    'isSearchDetail',
+    'isDialogDisplayed'
   ],
   data: () => ({
     dialog: false,
     notifications: false,
     sound: true,
     widgets: false,
-    currentRating: null
-
+    currentRating: null,
+    currentWatched: null
   }),
-  methods: {
-    // TODO: Set New Rating
-
-    // TODO: Set Watched Status
+  created () {
+    this.currentRating = this.rating
+    this.currentWatched = this.isWatched
+  },
+  watch: {
+    isDialogDisplayed: function () {
+      if (this.isDialogDisplayed) {
+        this.currentRating = this.rating
+        this.currentWatched = this.isWatched
+      }
+    },
+    currentRating: function (newValue) {
+      if (this.currentRating !== this.rating) {
+        this.$emit('requestRatingUpdate', this.id, newValue)
+      }
+    },
+    currentWatched: function (newValue) {
+      if (this.currentWatched !== this.isWatched) {
+        this.$emit('requestWatchedUpdate', this.id, newValue)
+      }
+    }
   }
 }
 </script>

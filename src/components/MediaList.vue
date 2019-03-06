@@ -91,7 +91,8 @@
 
     <v-dialog v-model="isDialogDisplayed" transition="dialog-bottom-transition" lazy>
       <DetailsDialog @cancel="isDialogDisplayed = false" @delete="isDialogDisplayed = false"
-      @requestDeletion="deleteEntry" v-bind="this.selectedDetail"/>
+      @requestDeletion="deleteEntry" @requestRatingUpdate="updateRating" v-bind="this.selectedDetail"
+      @requestWatchedUpdate="updateWatched"/>
     </v-dialog>
   </v-layout>
 </template>
@@ -176,8 +177,8 @@ export default {
         this.getLocalMedia((localMedia) => {
           this.localMedia = localMedia
         })
-        this.searchInput = ''
       }
+      this.selectedDetail.isDialogDisplayed = this.isDialogDisplayed
     }
   },
   methods: {
@@ -243,11 +244,30 @@ export default {
             if (error) {
               console.log('ERROR: saving document: ' + { unsavedDoc: newDoc } + '. Caused by: ' + error)
               throw error
+            } else {
+              component.localMedia.push(newDoc)
             }
-            component.localMedia.push(newDoc)
           })
         })
       }
+    },
+    // Updates the rating of the media entry
+    updateRating (givenId, newRating) {
+      this.$db.update({ id: givenId }, { $set: { rating: newRating } }, {}, function (error, ratingUpdated) {
+        if (error) {
+          console.log('ERROR: updating rating for document: ' + { idToUpdate: givenId } + '. Caused by: ' + error)
+          throw error
+        }
+      })
+    },
+    // Updates the watched status of the media entry
+    updateWatched (givenId, newWatched) {
+      this.$db.update({ id: givenId }, { $set: { isWatched: newWatched } }, {}, function (error, watchedUpdated) {
+        if (error) {
+          console.log('ERROR: updating watched status for document: ' + { idToUpdate: givenId } + '. Caused by: ' + error)
+          throw error
+        }
+      })
     },
     // Deletes the selected entry from the database
     deleteEntry (givenId) {
@@ -262,8 +282,7 @@ export default {
     },
     // Returns the URL of the poster images
     getPosterURL (posterPath) {
-      if (posterPath)
-        return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath
+      if (posterPath) { return 'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + posterPath }
       return require('@/assets/noimg.png')
     },
     // Returns an array of either all movies or all TV shows
@@ -293,7 +312,7 @@ export default {
         } else {
           if (searchResults.videos.results.length > 0) {
             let trailers = searchResults.videos.results.filter(entry => entry.type === 'Trailer')
-            if (trailers) {
+            if (trailers.length !== 0) {
               callback(trailers[0].key, this)
             } else {
               callback('', this)
@@ -311,7 +330,7 @@ export default {
         isWatched: entry.isWatched,
         voteAverage: entry.vote_average,
         trailer: entry.trailer ? entry.trailer : '',
-        rating: entry.rating ? entry.rating : 0,
+        rating: entry.rating,
         voteCount: entry.vote_count,
         description: entry.overview,
         isSearchDetail
