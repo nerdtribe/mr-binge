@@ -12,7 +12,7 @@
       <v-toolbar flat class="transparent">
         <v-list class="mt-5 pa-0">
           <v-list-tile>
-            <v-list-tile-avatar size="50">
+            <v-list-tile-avatar tile size="50">
               <img src="@/assets/logo.png">
             </v-list-tile-avatar>
           </v-list-tile>

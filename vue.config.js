@@ -3,6 +3,8 @@ module.exports = {
     electronBuilder: {
       builderOptions: {
         // options placed here will be merged with default configuration and passed to electron-builder
+        asar: true,
+        icon: './src/assets/logo.png',
         mac: {
           target: 'zip',
           category: 'public.app-category.video',
