@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-toolbar color="blue-grey darken-1">
+    <v-toolbar color="blue-grey">
       <v-toolbar-title>{{title}}<span class="caption"> ({{ year }})</span></v-toolbar-title>
       <v-spacer></v-spacer>
         <v-progress-circular
