@@ -315,8 +315,10 @@ export default {
             if (trailers.length !== 0) {
               callback(trailers[0].key, this)
             } else {
+              // eslint-disable-next-line
               callback('', this)
             }
+            // eslint-disable-next-line
           } else callback('', this)
         }
       })
