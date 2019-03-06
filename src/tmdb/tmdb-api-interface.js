@@ -10,7 +10,7 @@ const request = require('request')
 // const path = require('path')
 
 // Declare and initialize TMDb API variables
-const authentication = { 'api_key': 'e75533cf79b08acae50695beebcc6174' }
+const authentication = { 'api_key': '' }
 const baseURL = 'https://api.themoviedb.org/3/'
 
 // Declare and initialize new error to throw if required parameter is not inputz
