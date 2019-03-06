@@ -25,6 +25,7 @@
         </v-layout>
       </v-container>
     </v-flex>
+    <img v-if="localMedia.length === 0" class="start" src="@/assets/start.png" width="210">
     <v-btn
       color="primary"
       dark
@@ -38,6 +39,39 @@
     >
       <v-icon>add</v-icon>
     </v-btn>
+    <div class="text-xs-center">
+          <v-dialog
+            dark
+            v-model="welcomeDialog"
+            width="500"
+          >
+            <v-card>
+              <v-card-title
+                class="headline alternate"
+                primary-title
+                color="blue-grey"
+              >
+                Welcome to tbinge!
+              </v-card-title>
+              <v-card-text>
+                Tbinge is a desktop application that serves as a personal movie and TV show catalog. Easily keep track of movies an tv shows you've watched to include rating them and marking them watched.
+                <br>
+                <br>
+                <span class="font-weight-bold">Offline Limitations: </span> Some functions of tbinge require internet to work such as searching the TMDB library.
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  @click="welcomeDialog = false"
+                >
+                  Close
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
 
     <v-navigation-drawer v-model="drawer" temporary fixed right>
       <v-list class="pa-1 my-1">
@@ -115,7 +149,8 @@ export default {
     drawer: null,
     searchInput: '',
     searchInputTmdb: '',
-    errorMessage: ''
+    errorMessage: '',
+    welcomeDialog: false
   }),
   props: ['mediaType', 'titleNameFormat', 'releaseDateFormat', 'isTV'],
   created () {
@@ -132,6 +167,8 @@ export default {
     // Initialize the local media list
     this.getLocalMedia((localMedia) => {
       this.localMedia = localMedia
+      // Check if welcome should be shown
+      if (this.localMedia.length === 0) this.welcomeDialog = true
     })
 
     // Set timeout for the tmdb media search
@@ -348,4 +385,9 @@ export default {
   cursor: pointer
 .searchbar
   padding-left: 75px !important
+
+.start
+  position: fixed
+  bottom: 60px
+  right: 100px
 </style>
