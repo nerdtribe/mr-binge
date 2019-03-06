@@ -14,7 +14,7 @@
     <v-flex>
       <v-container grid-list-md fluid mt-5>
         <v-layout row wrap>
-          <v-flex v-for="entry in filteredList" :key="entry.id" xs4 md2 lg1 d-flex class="entry-img">
+          <v-flex v-for="entry in filteredList" :key="entry.id" xs12 sm6 md2 lg1 d-flex class="entry-img">
             <v-card flat tile>
               <v-img :src="getPosterURL(entry.poster_path)" :aspect-ratio="2/3" @click.prevent="viewDetail(entry.id)"></v-img>
               <v-card-actions>
