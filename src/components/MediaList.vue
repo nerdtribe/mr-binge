@@ -135,6 +135,7 @@
 import DetailsDialog from '@/components/DetailsDialog'
 import _ from 'lodash'
 import tmdbSearch from '@/tmdb/search'
+import tmdbRating from '@/tmdb/rating'
 
 export default {
   components: {
@@ -290,10 +291,62 @@ export default {
     },
     // Updates the rating of the media entry
     updateRating (givenId, newRating) {
+      // Create variable to access 'this' inside of callback functions
+      let self = this
+      // Check to see if the user has already opened a guest session id with tmdb
+      this.$db.find({ guestSessionID: { $exists: true } }, function (error, docs) {
+        if (error) {
+          throw error
+        } else {
+          // If no guest session is stored, then request a new guest session id
+          if (docs.length === 0) {
+            tmdbRating.createGuestSession(function (error, newGuestSessionID) {
+              if (error) {
+                throw error
+              } else {
+                // If no errors in receiving guest session id, store in the database
+                self.addGuestSession(newGuestSessionID, function (error, newDoc) {
+                  if (error) {
+                    console.log('ERROR: storing guest session id: ' + { unsavedGuestSession: newDoc } + '. Caused by: ' + error)
+                    throw error
+                  } else {
+                    // Send rating to TMDb website after generating new guest session id
+                    self.postRatingToTMDB(givenId, newRating, newDoc.guestSessionID.guest_session_id)
+                  }
+                })
+              }
+            })
+          } else {
+            console.log('Found a guest session ID: ' + docs[0].guestSessionID.guest_session_id)
+            // Send rating to TMDb website
+            self.postRatingToTMDB(givenId, newRating, docs[0].guestSessionID.guest_session_id)
+          }
+        }
+      })
+
+      // Update the rating in the local database
       this.$db.update({ id: givenId }, { $set: { rating: newRating } }, {}, function (error, ratingUpdated) {
         if (error) {
           console.log('ERROR: updating rating for document: ' + { idToUpdate: givenId } + '. Caused by: ' + error)
           throw error
+        }
+      })
+    },
+    // Adds the guest session id to the database
+    addGuestSession (newGuestSessionID, callback) {
+      this.$db.insert({ guestSessionID: newGuestSessionID }, function (error, newDoc) {
+        if (error) {
+          console.log('ERROR: storing guest session id: ' + { unsavedGuestSession: newDoc } + '. Caused by: ' + error)
+          callback(error)
+        } else callback(undefined, newDoc)
+      })
+    },
+    // Posts the input rating to the TMDB website
+    postRatingToTMDB (givenId, newRating, guestSessionID) {
+      tmdbRating.rate(givenId, this.isTV, newRating * 2, guestSessionID, function (error, response) {
+        if (error) console.log('ERROR: sending new rating due to: ' + error)
+        else {
+          console.log(response.status_message)
         }
       })
     },

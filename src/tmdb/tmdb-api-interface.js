@@ -7,11 +7,9 @@
 */
 // const fs = require('fs')
 const request = require('request')
-const path = require('path')
+// const path = require('path')
 
 // Declare and initialize TMDb API variables
-// eslint-disable-next-line
-const tmdbFolder = path.join(__static, '/authentication.json')
 const authentication = { 'api_key': '' }
 const baseURL = 'https://api.themoviedb.org/3/'
 
@@ -23,11 +21,6 @@ let tmbdCall = (options, callback) => {
   // Adds the API key to 'options' prior to calling API
   options.qs.api_key = authentication.api_key
 
-  // Adds the guest session id to 'options' if conducting a POST request
-  if (options.method === 'POST') {
-    options.qs.guest_session_id = authentication.guest_session_id
-  };
-
   // Send request and return the 'body' of response or error message if unsuccessful
   request(options, (error, response, body) => {
     // Return error message since no return JSON exists to parse error message
@@ -35,7 +28,11 @@ let tmbdCall = (options, callback) => {
       callback('Unable to connect to TMDb!') // eslint-disable-line
       // Return error message for status code 401 and 404 from returned JSON
     } else if (response.statusCode === 401 || response.statusCode === 404) {
-      callback(JSON.parse(body).status_message)
+      if (options.method === 'GET') {
+        callback(JSON.parse(body).status_message)
+      } else if (options.method === 'POST') {
+        callback(response.body.status_message)
+      }
       // Return object of 'body' or 'response' if no error in transaction
     } else {
       // Return 'body' if API call is a GET request
@@ -46,26 +43,6 @@ let tmbdCall = (options, callback) => {
         callback(undefined, response.body)
       }
     };
-  })
-}
-
-// Creates a guest session with TMDb
-let createGuestSession = (callback) => {
-  // Define options prior to passing it to the tmdbCall function
-  let options = { method: 'GET',
-    url: `${baseURL}authentication/guest_session/new`,
-    qs: {},
-    body: '{}'
-  }
-
-  // Call tmdb API and return object to callback function with the
-  // 'errorMessage' as the indicator of whether a search was succesfful
-  tmbdCall(options, (errorMessage, body) => {
-    if (errorMessage) {
-      callback(errorMessage)
-    } else {
-      callback(undefined, body)
-    }
   })
 }
 
@@ -102,7 +79,6 @@ let getRatingURL = (id = isRequired(), isTV = isRequired()) => {
 // Export functions for use outside of module
 module.exports = {
   tmbdCall,
-  createGuestSession,
   getSearchURL,
   getDetailedSearchURL,
   getRatingURL

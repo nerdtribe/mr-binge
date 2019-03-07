@@ -5,14 +5,15 @@
 *  Date: 21 February 2019
 */
 const tmdb = require('./tmdb-api-interface')
+const baseURL = 'https://api.themoviedb.org/3/'
 
 // Createsa a guest session with TMDb, submits a
 // rating and then deletes the guest session
-let rate = (id, isTV, rating, callback) => {
+let rate = (id, isTV, rating, guestSessionID, callback) => {
   // Define options prior to passing it to the tmdbCall function
   let options = { method: 'POST',
     url: tmdb.getRatingURL(id, isTV),
-    qs: {},
+    qs: { guest_session_id: guestSessionID },
     headers: { 'content-type': 'application/json;charset=utf-8' },
     body: { value: rating },
     json: true
@@ -29,6 +30,27 @@ let rate = (id, isTV, rating, callback) => {
   })
 }
 
+// Creates a guest session with TMDb
+let createGuestSession = (callback) => {
+  // Define options prior to passing it to the tmdbCall function
+  let options = { method: 'GET',
+    url: `${baseURL}authentication/guest_session/new`,
+    qs: {},
+    body: '{}'
+  }
+
+  // Call tmdb API and return object to callback function with the
+  // 'errorMessage' as the indicator of whether a search was succesfful
+  tmdb.tmbdCall(options, (errorMessage, body) => {
+    if (errorMessage) {
+      callback(errorMessage)
+    } else {
+      callback(undefined, body)
+    }
+  })
+}
+
 module.exports = {
-  rate
+  rate,
+  createGuestSession
 }
