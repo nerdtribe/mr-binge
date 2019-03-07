@@ -173,7 +173,7 @@ export default {
     })
 
     // Set timeout for the tmdb media search
-    this.debouncedSearchTMDB = _.debounce(this.searchTMDB, 1500)
+    this.debouncedSearchTMDB = _.debounce(this.searchTMDB, 750)
   },
   computed: {
     // Returns the list of TV Shows and Movies. If there is a value in the search bar,
