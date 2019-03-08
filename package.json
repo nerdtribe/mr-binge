@@ -1,7 +1,7 @@
 {
   "name": "tbinge",
-  "version": "0.2.2",
-  "author": "Lance Gunderse, Fatawa Lansah, Clifford Ramsey, Kyle McCain",
+  "version": "1.0.0",
+  "author": "Lance Gundersen, Fatawa Lansah, Clifford Ramsey, Kyle McCain",
   "description": "Tbinge is a desktop movie/tv library written in Electron/Node.js.",
   "private": true,
   "scripts": {

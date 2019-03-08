@@ -241,7 +241,7 @@ export default {
         })
       // If trailer was already found in previous search, just show the details window
       } else {
-        this.selectedDetail = this.buildProps(mediaEntry)
+        this.selectedDetail = this.buildProps(mediaEntry, true)
 
         this.isDialogDisplayed = true
       }
