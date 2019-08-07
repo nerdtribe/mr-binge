@@ -1,6 +1,6 @@
-# tbinge
+# Mr. Binge
 
-Tbinge is a desktop application written in Electron/Node.js that serves as a local tracking library for Movies and TV Shows that the user is either interested in viewing or has viewed and on which they would like to keep a database.
+Mr. Binge is a desktop application written in Electron/Node.js that serves as a local tracking library for Movies and TV Shows that the user is either interested in viewing or has viewed and on which they would like to keep a database.
 
 ## The features
 
