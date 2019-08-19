@@ -9,9 +9,9 @@ const baseURL = 'https://api.themoviedb.org/3/'
 
 // Createsa a guest session with TMDb, submits a
 // rating and then deletes the guest session
-let rate = (id, isTV, rating, guestSessionID, callback) => {
+const rate = (id, isTV, rating, guestSessionID, callback) => {
   // Define options prior to passing it to the tmdbCall function
-  let options = { method: 'POST',
+  const options = { method: 'POST',
     url: tmdb.getRatingURL(id, isTV),
     qs: { guest_session_id: guestSessionID },
     headers: { 'content-type': 'application/json;charset=utf-8' },
@@ -31,9 +31,9 @@ let rate = (id, isTV, rating, guestSessionID, callback) => {
 }
 
 // Creates a guest session with TMDb
-let createGuestSession = (callback) => {
+const createGuestSession = (callback) => {
   // Define options prior to passing it to the tmdbCall function
-  let options = { method: 'GET',
+  const options = { method: 'GET',
     url: `${baseURL}authentication/guest_session/new`,
     qs: {},
     body: '{}'

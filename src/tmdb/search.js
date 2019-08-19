@@ -7,9 +7,9 @@
 const tmdb = require('./tmdb-api-interface')
 
 // Returns a list of movies or TV Shows based on the input title and isTV value
-let searchTMDB = (title, isTV, callback) => {
+const searchTMDB = (title, isTV, callback) => {
   // Define options prior to passing it to the tmdbCall function
-  let options = { method: 'GET',
+  const options = { method: 'GET',
     url: tmdb.getSearchURL(isTV),
     qs:
         { include_adult: 'false',
@@ -32,9 +32,9 @@ let searchTMDB = (title, isTV, callback) => {
 }
 
 // Returns a detailed description of a movie or TV show based on the input TMDb id
-let detailedSearch = (id, isTV, callback) => {
+const detailedSearch = (id, isTV, callback) => {
   // Define options prior to passing it to the tmdbCall function
-  let options = { method: 'GET',
+  const options = { method: 'GET',
     url: tmdb.getDetailedSearchURL(isTV) + id,
     qs: { language: 'en-US', append_to_response: 'videos' },
     body: '{}'

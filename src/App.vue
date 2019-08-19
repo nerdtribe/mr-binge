@@ -1,19 +1,19 @@
 <template>
-  <Root/>
+  <root />
 </template>
 
 <script>
-import Root from './views/Root'
+  import Root from './views/Root'
 
-export default {
-  name: 'App',
-  components: {
-    Root
-  },
-  data () {
-    return {
+  export default {
+    name: 'App',
+    components: {
+      Root
+    },
+    data () {
+      return {
       //
+      }
     }
   }
-}
 </script>

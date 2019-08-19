@@ -10,14 +10,14 @@ const request = require('request')
 // const path = require('path')
 
 // Declare and initialize TMDb API variables
-const authentication = { 'api_key': '8b909a48726feace74f6d707bf46a1ee' }
+const authentication = { api_key: '8b909a48726feace74f6d707bf46a1ee' }
 const baseURL = 'https://api.themoviedb.org/3/'
 
 // Declare and initialize new error to throw if required parameter is not inputz
 const isRequired = () => { throw new Error('Parameter is required!') }
 
 // Function that calls TMDb API with the input options
-let tmbdCall = (options, callback) => {
+const tmbdCall = (options, callback) => {
   // Adds the API key to 'options' prior to calling API
   options.qs.api_key = authentication.api_key
 
@@ -48,7 +48,7 @@ let tmbdCall = (options, callback) => {
 
 // Function that returns the correct string to concatenate with the base
 // URL depending on whether the user is searching for a TV show or a movie
-let getSearchURL = (isTV = isRequired()) => {
+const getSearchURL = (isTV = isRequired()) => {
   if (isTV) {
     return `${baseURL}search/tv`
   } else {
@@ -58,7 +58,7 @@ let getSearchURL = (isTV = isRequired()) => {
 
 // Function that returns the correct string to concatenate with the base URL depending
 // on whether the user is doing a detailed search for a TV show or a movie
-let getDetailedSearchURL = (isTV = isRequired()) => {
+const getDetailedSearchURL = (isTV = isRequired()) => {
   if (isTV) {
     return `${baseURL}tv/`
   } else {
@@ -68,7 +68,7 @@ let getDetailedSearchURL = (isTV = isRequired()) => {
 
 // Function that returns the correct string to concatenate with the base URL depending
 // on whether the user is posting a rating for a TV show or a movie
-let getRatingURL = (id = isRequired(), isTV = isRequired()) => {
+const getRatingURL = (id = isRequired(), isTV = isRequired()) => {
   if (isTV) {
     return `${baseURL}tv/${id}/rating`
   } else {

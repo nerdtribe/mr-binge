@@ -1,28 +1,11 @@
 .DS_Store
-node_modules
-/dist
-
-# local env files
-.env.local
-.env.*.local
-
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw*
-
-#Electron-builder output
-/dist_electron
-
-#TMDB Authentication File
-src/tmdb/authentication.json
-public/authentication.json
+dist_electron
+.electron_vue
+build/*
+!build/icons
+coverage
+node_modules/
+npm-debug.log
+npm-debug.log.*
+thumbs.db
+!.gitkeep

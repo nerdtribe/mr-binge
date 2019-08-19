@@ -11,11 +11,16 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-// Standard scheme must be registered before the app is ready
-protocol.registerStandardSchemes(['app'], { secure: true })
+// Scheme must be registered before the app is ready
+protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
+
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 1000, height: 800 })
+  win = new BrowserWindow({ width: 1000,
+    height: 800,
+    webPreferences: {
+      nodeIntegration: true
+    } })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -55,6 +60,11 @@ app.on('activate', () => {
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
+    // Devtools extensions are broken in Electron 6.0.0 and greater
+    // See https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/378 for more info
+    // Electron will not launch with Devtools extensions installed on Windows 10 with dark mode
+    // If you are not using Windows 10 dark mode, you may uncomment these lines
+    // In addition, if the linked issue is closed, you can upgrade electron and uncomment these lines
     try {
       await installVueDevtools()
     } catch (e) {
