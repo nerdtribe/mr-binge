@@ -1,6 +1,6 @@
 .DS_Store
 dist_electron
-.electron_vue
+.electron-vue
 build/*
 !build/icons
 coverage
