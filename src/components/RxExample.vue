@@ -20,9 +20,9 @@ export default {
   subscriptions() {
     return {
       result$: this.count$.pipe(
-        filter(event => !!event),
+        filter((event) => !!event),
         bufferWhen(() => this.count$.pipe(debounceTime(400))),
-        map(clicks => clicks.length),
+        map((clicks) => clicks.length),
         startWith(0),
       ),
     };
