@@ -9,4 +9,4 @@
 - [ ] **Tests written**
 - [ ] **Code linted**
 - [ ] **Errors handled**
-- [ ] **Version bumber bumped**
+- [ ] **Version number bumped**
