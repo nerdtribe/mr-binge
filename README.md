@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/nerdtribe/mr-binge.svg?branch=upgrade)](https://travis-ci.org/nerdtribe/mr-binge) [![Coverage Status](https://coveralls.io/repos/github/nerdtribe/mr-binge/badge.svg)](https://coveralls.io/github/nerdtribe/mr-binge)
 # mr-binge
 
 ## Project setup

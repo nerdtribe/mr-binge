@@ -4,3 +4,4 @@ node_js:
 script:
  - yarn test:unit
  - yarn electron:build
+ - jest --coverage --coverageReporters=text-lcov | coveralls
