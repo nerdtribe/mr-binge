@@ -6,6 +6,7 @@
 <!-- (acceptance criteria) -->
 
 ## Checklist:
+- [ ] **Closes** <!-- #issue-number(s) -->
 - [ ] **Tests written**
 - [ ] **Code linted**
 - [ ] **Errors handled**
