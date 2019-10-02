@@ -1,3 +1,6 @@
+# LowDB local JSON database file
+/mrbingedb.json
+
 /coverage/
 /dist/
 /dist_electron/
