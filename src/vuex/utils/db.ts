@@ -1,7 +1,12 @@
 import lowdb from 'lowdb';
 import FileSync from 'lowdb/adapters/FileSync';
 
-const adapter = new FileSync('mrbingedb.json');
+const adapter = new FileSync('mrbingedb.json', {
+  defaultValue: {
+    apiKey: '',
+    movies: [],
+    tv: [],
+}});
 
 const db = lowdb(adapter);
 
