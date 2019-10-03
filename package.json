@@ -14,7 +14,6 @@
   },
   "main": "background.js",
   "dependencies": {
-    "@types/lowdb": "^1.0.9",
     "core-js": "^2.6.5",
     "lowdb": "^1.0.0",
     "rxjs": "^6.3.3",
