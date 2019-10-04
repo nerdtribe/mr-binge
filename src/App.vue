@@ -15,6 +15,9 @@ import TheNavbarView from '@/views/TheNavbarView.vue';
 
 export default Vue.extend({
   name: 'App',
+  components: {
+    TheNavbarView,
+  },
   data: () => ({ }),
 });
 </script>
