@@ -4,17 +4,13 @@
 // https://vue-test-utils.vuejs.org/guides/#getting-started
 // https://vuetifyjs.com/en/getting-started/unit-testing
 
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import vuetify from '@/plugins/vuetify';
-import App from '@/App.vue';
-
-const localVue = createLocalVue();
-localVue.use(vuetify);
+import { shallowMount } from '@vue/test-utils';
+import Home from '@/views/Home.vue';
 
 describe('Home.vue', () => {
 
   test('render', () => {
-    const wrapper = shallowMount(App);
+    const wrapper = shallowMount(Home);
     expect(wrapper.isVueInstance()).toBe(true);
   });
 });

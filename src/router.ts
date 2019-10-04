@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import TheNavbarView from '@/views/TheNavbarView.vue';
-import MovieView from '@/views/MovieView.vue';
-import TvView from '@/views/TvView.vue';
+import Home from './views/Home.vue';
 
 Vue.use(Router);
 
@@ -12,17 +10,16 @@ export default new Router({
   routes: [
     {
       path: '/',
-      components: {
-        default: TheNavbarView,
-        tv: MovieView,
-      },
+      name: 'home',
+      component: Home,
     },
     {
-      path: '/tv',
-      components: {
-        default: TheNavbarView,
-        tv: TvView,
-      },
+      path: '/about',
+      name: 'about',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
   ],
 });
