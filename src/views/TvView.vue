@@ -1,14 +1,14 @@
 <template>
-  <HelloWorld />
+  <TvComponent />
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from '../components/HelloWorld.vue';
+import TvComponent from '@/components/TvComponent.vue';
 
 export default Vue.extend({
   components: {
-    HelloWorld,
+    TvComponent,
   },
 });
 </script>
