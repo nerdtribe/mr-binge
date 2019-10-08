@@ -1,5 +1,7 @@
 <template>
-  <div>Movie Page Works!</div>
+  <v-layout justify-center column>
+    <div>Movie Page Works!</div>
+  </v-layout>
 </template>
 
 <script lang="ts">
