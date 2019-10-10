@@ -2,11 +2,11 @@ import { shallowMount } from '@vue/test-utils';
 import Vue from 'vue';
 import vuetify from '@/plugins/vuetify';
 import Vuex from 'vuex';
-import TvComponent from '@/components/TvComponent.vue';
+import TheNavbarComponent from '@/components/TheNavbarComponent.vue';
 
-describe('TvComponent.vue', () => {
+describe('TheNavbarComponent.vue', () => {
 
-  const shallowMountFunction = (options: any) => shallowMount(TvComponent, {
+  const shallowMountFunction = (options: any) => shallowMount(TheNavbarComponent, {
     vuetify,
     ...options,
   });

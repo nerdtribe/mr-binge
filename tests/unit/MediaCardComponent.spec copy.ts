@@ -2,11 +2,11 @@ import { shallowMount } from '@vue/test-utils';
 import Vue from 'vue';
 import vuetify from '@/plugins/vuetify';
 import Vuex from 'vuex';
-import TheFooter from '@/components/TheFooter.vue';
+import MediaCardComponent from '@/components/MediaCardComponent.vue';
 
-describe('TheFooter.vue', () => {
+describe('MediaCardComponent.vue', () => {
 
-  const shallowMountFunction = (options: any) => shallowMount(TheFooter, {
+  const shallowMountFunction = (options: any) => shallowMount(MediaCardComponent, {
     vuetify,
     ...options,
   });

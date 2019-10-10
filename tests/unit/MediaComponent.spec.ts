@@ -2,11 +2,11 @@ import { shallowMount } from '@vue/test-utils';
 import Vue from 'vue';
 import vuetify from '@/plugins/vuetify';
 import Vuex from 'vuex';
-import MovieComponent from '@/components/MovieComponent.vue';
+import MediaComponent from '@/components/MediaComponent.vue';
 
-describe('MovieComponent.vue', () => {
+describe('MediaComponent.vue', () => {
 
-  const shallowMountFunction = (options: any) => shallowMount(MovieComponent, {
+  const shallowMountFunction = (options: any) => shallowMount(MediaComponent, {
     vuetify,
     ...options,
   });
