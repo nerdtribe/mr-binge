@@ -1,14 +1,14 @@
 <template>
-  <MovieComponent />
+  <MediaComponent type="movies" />
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import MovieComponent from '@/components/MovieComponent.vue';
+import MediaComponent from '@/components/MediaComponent.vue';
 
 export default Vue.extend({
   components: {
-    MovieComponent,
+    MediaComponent,
   },
 });
 </script>

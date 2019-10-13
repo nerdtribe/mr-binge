@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import TheNavbarView from '@/views/TheNavbarView.vue';
-import TheFooterView from '@/views/TheFooterView.vue';
+import TheNavbarComponent from '@/components/TheNavbarComponent.vue';
 import MovieView from '@/views/MovieView.vue';
 import TvView from '@/views/TvView.vue';
 
@@ -14,17 +13,15 @@ export default new Router({
     {
       path: '/',
       components: {
-        default: TheNavbarView,
-        tv: MovieView,
-        footer: TheFooterView,
+        default: TheNavbarComponent,
+        component: MovieView,
       },
     },
     {
       path: '/tv',
       components: {
-        default: TheNavbarView,
-        tv: TvView,
-        footer: TheFooterView,
+        default: TheNavbarComponent,
+        component: TvView,
       },
     },
   ],
