@@ -10,13 +10,13 @@
         v-if="type === 'movies'" 
         imageSrc="https://cdn.vuetifyjs.com/images/cards/house.jpg" 
         title="Movie Title"
-        :id="n++ | toString"
+        :id="n++"
       />
       <MediaCardComponent 
         v-if="type === 'tv'" 
         imageSrc="https://cdn.vuetifyjs.com/images/cards/docks.jpg" 
         title="TV Title"
-        :id="n | toString"
+        :id="n"
       />
     </v-col>
   </v-row>
@@ -34,14 +34,6 @@ export default Vue.extend({
   },
   components: {
     MediaCardComponent,
-  },
-  filters: {
-    toString: (value: number) => {
-      if (!value) {
-        return '';
-      }
-      return value.toString();
-    },
   },
 });
 </script>

@@ -19,7 +19,7 @@ export default Vue.extend({
     imageSrc: String,
     title: String,
     type: String,
-    id: String,
+    id: Number,
   },
 });
 </script>

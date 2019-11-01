@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="navigateBack">Go Back</button>
+    <button @click="$router.go(-1)">Go Back</button>
     <p>Route ID: {{ $route.params.id }}</p>
   </div>
 </template>
@@ -11,10 +11,5 @@ import router from '@/router';
 
 export default Vue.extend({
   name: 'MediaDetailComponent',
-  methods: {
-    navigateBack() {
-      router.go(-1);
-    },
-  },
 });
 </script>
