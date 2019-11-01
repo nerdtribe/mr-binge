@@ -6,8 +6,18 @@
       cols="12"
       sm="3"
     >
-      <MediaCardComponent v-if="type === 'movies'" imageSrc="https://cdn.vuetifyjs.com/images/cards/house.jpg" title="Movie Title"/>
-      <MediaCardComponent v-if="type === 'tv'" imageSrc="https://cdn.vuetifyjs.com/images/cards/docks.jpg" title="TV Title"/>
+      <MediaCardComponent 
+        v-if="type === 'movies'" 
+        imageSrc="https://cdn.vuetifyjs.com/images/cards/house.jpg" 
+        title="Movie Title"
+        :id="n++ | toString"
+      />
+      <MediaCardComponent 
+        v-if="type === 'tv'" 
+        imageSrc="https://cdn.vuetifyjs.com/images/cards/docks.jpg" 
+        title="TV Title"
+        :id="n | toString"
+      />
     </v-col>
   </v-row>
 </template>
@@ -15,6 +25,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import MediaCardComponent from './MediaCardComponent.vue';
+import router from '@/router';
 
 export default Vue.extend({
   name: 'MediaComponent',
@@ -23,6 +34,14 @@ export default Vue.extend({
   },
   components: {
     MediaCardComponent,
+  },
+  filters: {
+    toString: (value: number) => {
+      if (!value) {
+        return '';
+      }
+      return value.toString();
+    },
   },
 });
 </script>

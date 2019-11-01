@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import TheNavbarComponent from '@/components/TheNavbarComponent.vue';
 import MovieView from '@/views/MovieView.vue';
 import TvView from '@/views/TvView.vue';
+import DetailView from '@/views/DetailView.vue';
 
 Vue.use(Router);
 
@@ -23,6 +24,14 @@ export default new Router({
         default: TheNavbarComponent,
         component: TvView,
       },
+    },
+    {
+      path: '/detail/:id',
+      components: {
+        default: TheNavbarComponent,
+        component: DetailView,
+      },
+      props: { default: true, component: true },
     },
   ],
 });
