@@ -3,12 +3,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import MediaComponent from '@/components/MediaComponent.vue';
+import Vue from "vue";
+import MediaComponent from "@/components/MediaComponent.vue";
 
 export default Vue.extend({
   components: {
-    MediaComponent,
-  },
+    MediaComponent
+  }
 });
 </script>

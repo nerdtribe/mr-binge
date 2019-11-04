@@ -9,15 +9,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import TheFooterComponent from '@/components/TheFooterComponent.vue';
+import Vue from "vue";
+import TheFooterComponent from "@/components/TheFooterComponent.vue";
 
 export default Vue.extend({
-  name: 'App',
+  name: "App",
   components: {
-    TheFooterComponent,
+    TheFooterComponent
   },
-  data: () => ({ }),
+  data: () => ({})
 });
 </script>
 

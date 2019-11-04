@@ -1,8 +1,6 @@
 <template>
   <v-card flat tile :to="`/detail/${id}`">
-    <v-img 
-      :src=imageSrc
-    ></v-img>
+    <v-img :src="imageSrc"></v-img>
     <v-card-actions>
       <p>{{ title }}</p>
     </v-card-actions>
@@ -10,17 +8,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import router from '@/router';
+import Vue from "vue";
+import router from "@/router";
 
 export default Vue.extend({
-  name: 'MediaCardComponent',
+  name: "MediaCardComponent",
   props: {
     imageSrc: String,
     title: String,
     type: String,
-    id: Number,
-  },
+    id: Number
+  }
 });
 </script>
 
