@@ -1,12 +1,20 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    jest: true
   },
-  extends: ["plugin:vue/essential", "@vue/prettier", "@vue/typescript"],
+  plugins: ["jest"],
+  extends: [
+    "plugin:vue/essential",
+    "@vue/prettier",
+    "@vue/typescript",
+    "plugin:jest/recommended",
+    "plugin:jest/style"
+  ],
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off"
+    "no-console": "off",
+    "no-debugger": "off"
   },
   parserOptions: {
     parser: "@typescript-eslint/parser"

@@ -25,6 +25,14 @@ module.exports = {
     }
   },
   collectCoverage: true,
-  collectCoverageFrom: ["src/**/*.{vue}", "!src/main.ts"],
-  coverageReporters: ["lcov", "text-summary"]
+  collectCoverageFrom: ["src/**/*.{vue, ts}", "!src/main.ts"],
+  coverageReporters: ["lcov", "text-summary"],
+  coverageThreshold: {
+    global: {
+      statements: 90,
+      branches: 90,
+      functions: 90,
+      lines: 90
+    }
+  }
 };
