@@ -1,12 +1,13 @@
-import lowdb from 'lowdb';
-import FileSync from 'lowdb/adapters/FileSync';
+import lowdb from "lowdb";
+import FileSync from "lowdb/adapters/FileSync";
 
-const adapter = new FileSync('mrbingedb.json', {
+const adapter = new FileSync("mrbingedb.json", {
   defaultValue: {
-    apiKey: '',
+    apiKey: "",
     movies: [],
-    tv: [],
-}});
+    tv: []
+  }
+});
 
 const db = lowdb(adapter);
 
@@ -15,6 +16,6 @@ export default {
     return db.getState();
   },
   writeApiKey(payload: string) {
-    db.set('apiKey', payload).write();
-  },
+    db.set("apiKey", payload).write();
+  }
 };

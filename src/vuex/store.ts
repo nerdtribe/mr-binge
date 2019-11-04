@@ -1,14 +1,14 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import db from './utils/db';
+import Vue from "vue";
+import Vuex from "vuex";
+import db from "./utils/db";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    apiKey: '',
+    apiKey: "",
     movies: [],
-    tv: [],
+    tv: []
   },
   mutations: {
     setState(state, payload) {
@@ -18,15 +18,15 @@ export default new Vuex.Store({
     },
     addApiKey(state, payload) {
       state.apiKey = payload;
-    },
+    }
   },
   actions: {
     loadDb({ commit }, payload) {
-      commit('setState', payload);
+      commit("setState", payload);
     },
     addApiKey({ commit, state }, payload) {
-      commit('addApiKey', payload);
+      commit("addApiKey", payload);
       db.writeApiKey(state.apiKey);
-    },
-  },
+    }
+  }
 });
