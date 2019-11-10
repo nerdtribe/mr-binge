@@ -5,15 +5,39 @@
         <h1>
           {{ detailData.title
           }}<span class="year"> ({{ detailData.year }})</span>
-          <span class="ratings"
-            >{{ detailData.rating }}% ({{ detailData.raters }})</span
-          >
+          <div class="ratings">
+            <v-progress-circular
+              :rotate="360"
+              :size="75"
+              :width="10"
+              :value="detailData.rating"
+              class="rating"
+            >
+              <span class="rate">{{ detailData.rating }}%</span>
+            </v-progress-circular>
+            <span class="votes">({{ detailData.raters }})</span>
+          </div>
         </h1>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-icon class="delete">mdi-delete</v-icon>
     </v-app-bar>
-    <p class="mt-3">Route ID: {{ $route.params.id }}</p>
+    <v-toolbar flat dense class="detail-bar">
+      <v-btn text icon class="back-btn" color="primary" @click="$router.go(-1)"
+        ><v-icon>mdi-arrow-left-circle</v-icon></v-btn
+      >
+      <v-spacer></v-spacer>
+      My Rating:
+      <v-rating dense half-increments v-model="userRating"></v-rating>
+      <v-spacer></v-spacer>
+      <v-switch dense hide-details v-model="watched" label="Watched"></v-switch>
+    </v-toolbar>
+    <v-container>
+      <v-row>
+        <p>{{ detailData.description }}</p>
+        <v-skeleton-loader width="100%" type="image"></v-skeleton-loader>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -21,14 +45,21 @@
 import Vue from "vue";
 import { MediaDetail } from "@/vuex/types";
 
+interface HeaderStyle {
+  background: string;
+  "background-size": string;
+}
+
 export default Vue.extend({
   name: "MediaDetailComponent",
   data: () => ({
     isLoading: false,
-    detailData: {} as MediaDetail
+    detailData: {} as MediaDetail,
+    userRating: 3,
+    watched: false
   }),
   computed: {
-    bgHeaderStyle() {
+    bgHeaderStyle(): HeaderStyle {
       return {
         background:
           "linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(" +
@@ -42,7 +73,7 @@ export default Vue.extend({
     this.fetch();
   },
   methods: {
-    async fetch() {
+    fetch() {
       this.isLoading = true;
       this.detailData = {
         title: "Joker",
@@ -50,7 +81,10 @@ export default Vue.extend({
         rating: "85",
         raters: "1483",
         posterImage:
-          "https://image.tmdb.org/t/p/w600_and_h900_bestv2/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg"
+          "https://image.tmdb.org/t/p/w600_and_h900_bestv2/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
+        description:
+          "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.",
+        trailer: "https://www.themoviedb.org/video/play?key=t433PEQGErc"
       };
       this.isLoading = false;
     }
@@ -61,26 +95,38 @@ export default Vue.extend({
 <style lang="scss">
 .title {
   width: 100%;
+  margin: 0 !important;
   .year {
     font-size: 50%;
     color: rgba(white, 0.8);
   }
   .ratings {
+    display: flex;
+    align-items: center;
     float: right;
-    justify-self: flex-end;
-    font-size: 50%;
-    color: rgba(white, 0.8);
-  }
-}
-.toolbar-items {
-  width: 100%;
-  justify-content: flex-end;
-  .ratings {
-    justify-self: end;
-    color: rgba(white, 0.8);
+    .rating {
+      margin-right: 10px;
+      .rate {
+        font-size: 40%;
+      }
+    }
+    .votes {
+      font-size: 50%;
+      margin-right: 20px;
+    }
   }
 }
 .delete {
-  margin: 25px;
+  margin-top: 15px;
+  color: rgba(white, 0.5);
+  cursor: pointer;
+  &:hover {
+    color: red;
+  }
+}
+.detail-bar {
+  .back-btn {
+    border: 0;
+  }
 }
 </style>
