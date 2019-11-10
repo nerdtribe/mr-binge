@@ -14,6 +14,18 @@
         :id="n"
       />
     </v-col>
+    <v-btn
+      color="primary"
+      dark
+      absolute
+      fixed
+      bottom
+      right
+      fab
+      class="add-btn"
+    >
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </v-row>
 </template>
 
@@ -31,3 +43,9 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style lang="scss">
+.add-btn {
+  margin: 0 25px 50px 0;
+}
+</style>
