@@ -1,29 +1,41 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import TheNavbarComponent from "@/components/TheNavbarComponent";
+import MovieView from "@/views/MovieView";
+import TvView from "@/views/TvView";
+import DetailView from "@/views/DetailView";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: Home,
+    path: "/",
+    components: {
+      default: TheNavbarComponent,
+      component: MovieView
+    }
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: "/tv",
+    components: {
+      default: TheNavbarComponent,
+      component: TvView
+    }
   },
+  {
+    path: "/detail/:id",
+    components: {
+      default: TheNavbarComponent,
+      component: DetailView
+    },
+    props: { default: true, component: true }
+  }
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: process.env.IS_ELECTRON ? "hash" : "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 export default router;
