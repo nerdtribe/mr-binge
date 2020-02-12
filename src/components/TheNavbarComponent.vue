@@ -20,6 +20,12 @@
                  class="pa-2">
       <v-img :src="require('../static/tv.png')" />
     </v-list-item>
+    <template v-slot:append>
+      <v-list-item to="/settings"
+                   class="pa-3">
+        <v-img :src="require('../static/settings.png')" />
+      </v-list-item>
+    </template>
   </v-navigation-drawer>
 </template>
 

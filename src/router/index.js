@@ -4,6 +4,8 @@ import TheNavbarComponent from "@/components/TheNavbarComponent";
 import MovieView from "@/views/MovieView";
 import TvView from "@/views/TvView";
 import DetailView from "@/views/DetailView";
+import SettingsView from "@/views/SettingsView";
+
 
 Vue.use(VueRouter);
 
@@ -23,13 +25,20 @@ const routes = [
     }
   },
   {
+    path: "/settings",
+    components: {
+      default: TheNavbarComponent,
+      component: SettingsView
+    }
+  },
+  {
     path: "/detail/:id",
     components: {
       default: TheNavbarComponent,
       component: DetailView
     },
     props: { default: true, component: true }
-  }
+  },
 ];
 
 const router = new VueRouter({
