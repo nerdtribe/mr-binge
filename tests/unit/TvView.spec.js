@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils";
-import { TvView } from "@/views/TvView";
+import TvView from "@/views/TvView";
 
 describe("TvView.vue", () => {
   test("render", () => {
