@@ -11,9 +11,13 @@ export default new Vuex.Store({
   mutations: {
     setState(state, payload) {
       state.tmdbApiKey = payload.tmdbApiKey;
+      state.tmdbApiEnabled = payload.tmdbApiEnabled;
     },
     addTmdbApiKey(state, payload) {
       state.tmdbApiKey = payload;
+    },
+    tmdbApiEnabled(state, payload) {
+      state.tmdbApiEnabled = payload;
     }
   },
   actions: {
@@ -23,10 +27,15 @@ export default new Vuex.Store({
     tmdbApiKey({ commit, state }, payload) {
       commit("addTmdbApiKey", payload);
       db.writeTmdbApiKey(state.tmdbApiKey);
+    },
+    tmdbApiEnabled({ commit, state }, payload) {
+      commit("tmdbApiEnabled", payload);
+      db.writeTmdbApiEnabled(state.tmdbApiEnabled);
     }
   },
   getters: {
-    tmdbApiKey: state => state.tmdbApiKey
+    tmdbApiKey: state => state.tmdbApiKey,
+    tmdbApiEnabled: state => state.tmdbApiEnabled,
   },
   modules: {}
 });

@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-  tmdbApiKey: "",
+  tmdbApiKey: null,
+  tmdbApiEnabled: false,
 };
 
 export default INITIAL_STATE;

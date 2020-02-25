@@ -14,5 +14,9 @@ export default {
   },
   writeTmdbApiKey(payload) {
     db.set("tmdbApiKey", payload).write();
+  },
+  writeTmdbApiEnabled(payload) {
+    db.set("tmdbApiEnabled", payload).write();
   }
+
 };

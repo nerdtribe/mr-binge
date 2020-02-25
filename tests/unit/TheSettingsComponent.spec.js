@@ -20,29 +20,45 @@ describe("TheSettingsComponent.vue", () => {
 
   let store;
   let state;
-  let getters;
   let actions;
+  let storeDispatchSpy;
 
   beforeEach(() => {
     state = {
-      tmdbApiKey: "state test"
-    };
-    getters = {
-      tmdbApiKey: () => "getter test",
+      tmdbApiKey: "test123",
+      tmdbApiEnabled: false,
     };
     actions = {
-      tmdbApiKey: jest.fn()
+      tmdbApiKey: jest.fn(),
+      tmdbApiEnabled: jest.fn(),
     };
     store = new Vuex.Store({
       state,
-      getters,
       actions
     });
+
+    storeDispatchSpy = jest.spyOn(store, "dispatch");
   });
 
   test("render", () => {
     const wrapper = shallowMountFunction({ store });
-    // const wrapper = shallowMount(TheSettingsComponent, { store, localVue, Vuetify });
     expect(wrapper.isVueInstance()).toBe(true);
+  });
+
+  test("tmdbApiKey", () => {
+    const wrapper = shallowMountFunction({ store });
+    expect(wrapper.vm.tmdbApiKey).toBe("test123");
+    expect(actions.tmdbApiKey).not.toHaveBeenCalled();
+    wrapper.vm.tmdbApiKey = "test1234";
+    expect(actions.tmdbApiKey).toHaveBeenCalledTimes(1);
+    expect(storeDispatchSpy).toHaveBeenCalledWith("tmdbApiKey", "test1234");
+  });
+
+  test("tmdbApiEnabled", () => {
+    const wrapper = shallowMountFunction({ store });
+    expect(wrapper.vm.tmdbApiEnabled).toBe(false);
+    expect(actions.tmdbApiEnabled).not.toHaveBeenCalledTimes(1);
+    wrapper.vm.tmdbApiEnabled = true;
+    expect(storeDispatchSpy).toHaveBeenCalledWith("tmdbApiEnabled", true);
   });
 });

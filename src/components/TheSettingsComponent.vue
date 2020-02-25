@@ -1,20 +1,27 @@
 <template>
-  <v-card height="100%">
-    <h1 class="headline pa-4">
-      Settings
-    </h1>
-    <v-divider />
-    <v-tabs vertical
-            background-color="secondary"
-            class="pa-2"
-            height="100%">
-      <v-tab>
-        Media Sources
-      </v-tab>
-      <v-tab-item>
-        <v-form>
-          <v-container>
-            <h2>The Movie Database</h2>
+  <v-layout no-gutters
+            row>
+    <v-flex sm12>
+      <h1 class="headline pa-2">
+        Settings
+      </h1>
+    </v-flex>
+    <v-flex sm12>
+      <v-tabs vertical>
+        <v-tab>
+          Searchers
+        </v-tab>
+        <v-tab-item>
+          <v-flex
+            class="d-flex flex-row align-center">
+            <h2>
+              The Movie Database
+            </h2>
+            <v-spacer />
+            <v-switch v-model="tmdbApiEnabled"
+                      inset />
+          </v-flex>
+          <v-flex v-if="tmdbApiEnabled">
             <ol>
               <li>
                 Create a
@@ -28,7 +35,7 @@
               <li>Paste API key below.</li>
             </ol>
             <v-row>
-              <v-col cols="12"
+              <v-col cols="24"
                      sm="6"
                      md="3">
                 <v-text-field
@@ -40,14 +47,34 @@
                   @click:append="showApi = !showApi" />
               </v-col>
             </v-row>
-          </v-container>
-        </v-form>
-      </v-tab-item>
-      <v-tab>
-        Media Sources
-      </v-tab>
-    </v-tabs>
-  </v-card>
+          </v-flex>
+        </v-tab-item>
+        <v-tab>
+          Backups
+        </v-tab>
+        <v-tab-item>
+          <v-flex class="d-flex flex-row align-center">
+            <h2>
+              Download <span class="subtitle-1 font-weight-medium yellow--text">(Coming Soon)</span>
+            </h2>
+            <v-spacer />
+            <v-switch
+              inset
+              disabled />
+          </v-flex>
+          <v-flex class="d-flex flex-row align-center">
+            <h2>
+              Cloud Storage <span class="subtitle-1 font-weight-medium yellow--text">(Coming Soon)</span>
+            </h2>
+            <v-spacer />
+            <v-switch
+              inset
+              disabled />
+          </v-flex>
+        </v-tab-item>
+      </v-tabs>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -66,7 +93,15 @@ export default Vue.extend({
       set(value) {
         this.$store.dispatch("tmdbApiKey", value);
       }
-    }
+    },
+    tmdbApiEnabled: {
+      get() {
+        return this.$store.state.tmdbApiEnabled;
+      },
+      set(value) {
+        this.$store.dispatch("tmdbApiEnabled", value);
+      }
+    },
   }
 });
 </script>
