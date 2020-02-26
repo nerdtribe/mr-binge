@@ -1,47 +1,34 @@
-# Mr. Binge
-
-Mr. Binge is a desktop application written in Electron/Node.js that serves as a local tracking library for Movies and TV Shows that the user is either interested in viewing or has viewed and on which they would like to keep a database.
-
-## The features
-
-- Searching [TMDB](https://www.themoviedb.org/) for movies and TV shows
-- Rating a movie or TV show locally (contributes to TMDB rating system too)
-- Adding a movie or TV show to local database
-- Removing a movie or TV show from local database
-- Operating in an offline setting (no TMDB searching)
+# mr-binge
 
 ## Project setup
-
-```bash
+```
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
-
-```bash
-yarn electron:serve
+```
+yarn serve
 ```
 
-### Compiles and minifies for production (for the developers current Operating System)
-
-```bash
-yarn electron:build
+### Compiles and minifies for production
+```
+yarn build
 ```
 
-### Compiles and minifies for production (Mac OS, Linux (snaps) and Windows 10 x64)
+### Run your unit tests
+```
+yarn test:unit
+```
 
-```bash
-yarn electron:build-all
+### Run your end-to-end tests
+```
+yarn test:e2e
 ```
 
 ### Lints and fixes files
-
-```bash
-yarn run lint
+```
+yarn lint
 ```
 
 ### Customize configuration
-
 See [Configuration Reference](https://cli.vuejs.org/config/).
-See [Styling Reference](https://vuetifyjs.com/en/).
-See [Electron Reference](https://www.electron.build/).

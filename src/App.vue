@@ -1,19 +1,27 @@
 <template>
-  <Root/>
+  <v-app>
+    <v-content>
+      <router-view />
+      <router-view name="component" />
+    </v-content>
+    <TheFooterComponent />
+  </v-app>
 </template>
 
-<script>
-import Root from './views/Root'
+<script lang="ts">
+import Vue from "vue";
+import TheFooterComponent from "./components/TheFooterComponent.vue";
 
-export default {
-  name: 'App',
+export default Vue.extend({
+  name: "App",
   components: {
-    Root
+    TheFooterComponent
   },
-  data () {
-    return {
-      //
-    }
-  }
-}
+  data: () => ({})
+});
 </script>
+
+<style lang="sass">
+body
+  margin: 0
+</style>
