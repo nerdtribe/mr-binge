@@ -1,5 +1,19 @@
 <template>
   <v-row no-gutters>
+    <v-col cols="12">
+      <v-toolbar>
+        <v-text-field
+          flat
+          solo-inverted
+          hide-details
+          clearable
+          prepend-inner-icon="mdi-magnify"
+          :label="'Search Local ' + type" />
+        <v-btn icon>
+          <v-icon>mdi-search-web</v-icon>
+        </v-btn>
+      </v-toolbar>
+    </v-col>
     <v-col v-for="n in 30"
            :key="n"
            cols="12"
