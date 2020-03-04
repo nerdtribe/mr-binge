@@ -54,17 +54,28 @@ import Vue from "vue";
 export default Vue.extend({
   name: "TheSearchDrawerComponent",
   props: {
-    show: {
+    value: {
       type: Boolean,
-      default: false,
+      required: false,
+      default: true,
     },
   },
   data: () => ({
-    drawer: true,
     cards: [
       { title: "Frozen II", year: "2019", src: "https://image.tmdb.org/t/p/w300_and_h450_bestv2/pjeMs3yqRmFL3giJy4PMXWZTTPa.jpg" },
       { title: "Avengers: Infinity War", year: "2018", src: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" },
     ],
   }),
+
+  computed: {
+    drawer: {
+      get() {
+        return this.value;
+      },
+      set(newValue) {
+        this.$emit("input", newValue);
+      }
+    }
+  },
 });
 </script>
