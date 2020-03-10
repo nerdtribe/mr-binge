@@ -9,7 +9,8 @@
           clearable
           prepend-inner-icon="mdi-magnify"
           :label="'Search Local ' + type" />
-        <v-btn icon>
+        <v-btn icon
+               @click.stop="showTmdbSearchDrawer = !showTmdbSearchDrawer">
           <v-icon>mdi-search-web</v-icon>
         </v-btn>
       </v-toolbar>
@@ -29,23 +30,29 @@
         image-src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
         title="TV Title" />
     </v-col>
+    <TheSearchDrawerComponent v-model="showTmdbSearchDrawer" />
   </v-row>
 </template>
 
 <script>
 import Vue from "vue";
 import MediaCardComponent from "./MediaCardComponent.vue";
+import TheSearchDrawerComponent from "./TheSearchDrawerComponent.vue";
 
 export default Vue.extend({
   name: "MediaComponent",
   components: {
-    MediaCardComponent
+    MediaCardComponent,
+    TheSearchDrawerComponent,
   },
   props: {
     type: {
       type: String,
       default: "",
     },
-  }
+  },
+  data: () => ({
+    showTmdbSearchDrawer: false,
+  }),
 });
 </script>
