@@ -3,14 +3,17 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VueRouter from "vue-router";
 import Vuetify from "vuetify";
-import TheSearchDrawerComponent from "@/components/TheSearchDrawerComponent";
+import TheSearchPreviewDialogComponent from "@/components/TheSearchPreviewDialogComponent";
 
-describe("TheSearchDrawerComponent.vue", () => {
+// Ignore youtube-embed as its tested via cypress
+Vue.config.ignoredElements = ["youtube"];
+
+describe("TheSearchPreviewDialogComponent.vue", () => {
   const localVue = createLocalVue();
   localVue.use(VueRouter);
   const router = new VueRouter();
 
-  const shallowMountFunction = options => shallowMount(TheSearchDrawerComponent, {
+  const shallowMountFunction = options => shallowMount(TheSearchPreviewDialogComponent, {
     Vuetify,
     localVue,
     router,
@@ -25,12 +28,6 @@ describe("TheSearchDrawerComponent.vue", () => {
   test("render", () => {
     const wrapper = shallowMountFunction({});
     expect(wrapper.isVueInstance()).toBe(true);
-  });
-
-  test("dialog", () => {
-    const wrapper = shallowMountFunction({});
-    wrapper.vm.drawer = true;
-    expect(wrapper.vm.drawer).toBeTruthy();
   });
 
   test("add", () => {
