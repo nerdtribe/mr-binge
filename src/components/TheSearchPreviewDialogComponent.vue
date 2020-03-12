@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog"
             persistent
             max-width="75%">
-    <v-card>
+    <v-card class="ma-0">
       <v-card-title class="headline">
         Frozen II <span class="caption mt-2 ml-2"> (2019)</span>
       </v-card-title>
