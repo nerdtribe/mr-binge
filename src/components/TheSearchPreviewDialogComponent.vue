@@ -32,11 +32,11 @@
       <v-card-text class="d-flex align-center flex-column">
         Elsa, Anna, Kristoff and Olaf head far into the forest to learn the truth about an ancient mystery of their kingdom.
         <div class="pa-4">
-         <youtube video-id="Zi4LMpSDccc" />
+          <youtube video-id="Zi4LMpSDccc" />
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn text
                @click="dialog = false">
           Close
