@@ -31,13 +31,15 @@
             </v-img>
             <v-card-actions>
               <v-btn text
-                     small>
+                     small
+                     @click.stop="showTmdbSearchDialog = !showTmdbSearchDialog">
                 View
               </v-btn>
               <v-spacer />
               <v-btn text
                      small
-                     color="primary">
+                     color="primary"
+                     @click.once.prevent="add('id')">
                 Add to Library
               </v-btn>
             </v-card-actions>
@@ -45,14 +47,19 @@
         </v-col>
       </v-row>
     </v-container>
+    <TheSearchPreviewDialogComponent v-model="showTmdbSearchDialog" />
   </v-navigation-drawer>
 </template>
 
 <script>
 import Vue from "vue";
+import TheSearchPreviewDialogComponent from "./TheSearchPreviewDialogComponent";
 
 export default Vue.extend({
   name: "TheSearchDrawerComponent",
+  components: {
+    TheSearchPreviewDialogComponent,
+  },
   props: {
     value: {
       type: Boolean,
@@ -65,8 +72,8 @@ export default Vue.extend({
       { title: "Frozen II", year: "2019", src: "https://image.tmdb.org/t/p/w300_and_h450_bestv2/pjeMs3yqRmFL3giJy4PMXWZTTPa.jpg" },
       { title: "Avengers: Infinity War", year: "2018", src: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" },
     ],
+    showTmdbSearchDialog: false,
   }),
-
   computed: {
     drawer: {
       get() {
@@ -76,6 +83,12 @@ export default Vue.extend({
         this.$emit("input", newValue);
       }
     }
+  },
+  methods: {
+    add(id) {
+      console.log(`Firing ${id}`);
+      this.dialog = false;
+    },
   },
 });
 </script>
