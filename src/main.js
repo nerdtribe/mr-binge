@@ -16,6 +16,7 @@ new Vue({
   beforeCreate() {
     const data = db.readDatabase();
     this.$store.dispatch("loadDb", data);
+    console.warn("Reminder for prod release that BrowserWindow() webSecurity is set to false!");
   },
   render: h => h(App)
 }).$mount("#app");
