@@ -6,7 +6,7 @@ import ApiService from "../utils/apiService";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== "production",
   state: INITIAL_STATE,
   mutations: {
@@ -14,6 +14,7 @@ export default new Vuex.Store({
       state.tmdbApiKey = payload.tmdbApiKey;
       state.tmdbApiEnabled = payload.tmdbApiEnabled;
     },
+    setLoading(state, payload) {
       state.loading = payload;
     },
     addTmdbApiKey(state, payload) {
@@ -22,11 +23,11 @@ export default new Vuex.Store({
     tmdbApiEnabled(state, payload) {
       state.tmdbApiEnabled = payload;
     },
-    setMovieSearch(state, payload) {
-      state.movieSearch = payload;
+    setSearch(state, payload) {
+      state.search = payload;
     },
-    clearMovieSearch(state) {
-      state.movieSearch = [];
+    clearSearch(state) {
+      state.search = [];
     },
     setSearchErrorMessage(state, payload) {
       state.searchErrorMessage = payload;
@@ -50,7 +51,7 @@ export default new Vuex.Store({
     async searchMovies({ commit }, { query }) {
       commit("setLoading", true);
       commit("clearSearchErrorMessage");
-      commit("clearMovieSearch");
+      commit("clearSearch");
       await ApiService.searchBroadTvMovie("movies", query).then(response => {
         if (!response.data.results.length) {
           commit(
@@ -58,17 +59,37 @@ export default new Vuex.Store({
             `No results found for ${query}, please revise your search.`
           );
         }
-        commit("setMovieSearch", response.data.results);
-        commit("setLoading", false);
+        commit("setSearch", response.data.results);
       });
+      commit("setLoading", false);
+    },
+    async searchTv({ commit }, { query }) {
+      commit("setLoading", true);
+      commit("clearSearchErrorMessage");
+      commit("clearSearch");
+      await ApiService.searchBroadTvMovie("tv", query).then(response => {
+        if (!response.data.results.length) {
+          commit(
+            "setSearchErrorMessage",
+            `No results found for ${query}, please revise your search.`
+          );
+        }
+        commit("setSearch", response.data.results);
+      });
+      commit("setLoading", false);
+    },
+    clearSearch({ commit }) {
+      commit("clearSearch");
     }
   },
   getters: {
     loadng: state => state.loading,
     tmdbApiKey: state => state.tmdbApiKey,
     tmdbApiEnabled: state => state.tmdbApiEnabled,
-    movieSearchResults: state => state.movieSearch,
+    searchResults: state => state.search,
     searchErrorMessage: state => state.searchErrorMessage,
   },
   modules: {}
 });
+
+export default store;

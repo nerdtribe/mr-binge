@@ -5,6 +5,7 @@ import MovieView from "@/views/MovieView";
 import TvView from "@/views/TvView";
 import DetailView from "@/views/DetailView";
 import SettingsView from "@/views/SettingsView";
+import store from "../store";
 
 
 Vue.use(VueRouter);
@@ -14,14 +15,14 @@ const routes = [
     path: "/",
     components: {
       default: TheNavbarComponent,
-      component: MovieView
+      component: MovieView,
     }
   },
   {
     path: "/tv",
     components: {
       default: TheNavbarComponent,
-      component: TvView
+      component: TvView,
     }
   },
   {
@@ -45,6 +46,14 @@ const router = new VueRouter({
   mode: process.env.IS_ELECTRON ? "hash" : "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(route => route.path === "/" || "tv")) {
+    next(store.dispatch("clearSearch"));
+  } else {
+    next();
+  }
 });
 
 export default router;

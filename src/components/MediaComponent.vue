@@ -30,7 +30,8 @@
         image-src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
         title="TV Title" />
     </v-col>
-    <TheSearchDrawerComponent v-model="showTmdbSearchDrawer" />
+    <TheSearchDrawerComponent v-model="showTmdbSearchDrawer"
+                              :type="type" />
   </v-row>
 </template>
 

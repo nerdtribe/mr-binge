@@ -3,7 +3,7 @@ const INITIAL_STATE = {
   tmdbApiEnabled: false,
   loading: false,
   searchErrorMessage: null,
-  movieSearch: [],
+  search: [],
 };
 
 export default INITIAL_STATE;

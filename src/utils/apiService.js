@@ -16,7 +16,7 @@ class ApiService {
   }
 
   async searchBroadTvMovie(type, query) {
-    const searchType = query === "movies" ? "tvShowTitle" : "movieTitle";
+    const searchType = type === "tv" ? "tvShowTitle" : "movieTitle";
     this.response = await this.axiosRequest(`${type}/search?${searchType}=${query}`).then(
       response => response
     );

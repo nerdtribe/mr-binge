@@ -11,7 +11,7 @@
       clearable
       prepend-inner-icon="mdi-magnify"
       label="Search TMDB"
-      @change="searchMovies" />
+      @change="search" />
     <v-container fluid>
       <v-row dense>
         <template v-if="isLoading">
@@ -32,31 +32,31 @@
           </v-row>
         </template>
         <template v-if="!isLoading && !searchErrorMessage">
-          <v-col v-for="movie in movieSearchResults"
-                 :key="movie.id"
+          <v-col v-for="item in searchResults"
+                 :key="item.id"
                  :hidden="isLoading"
-                 :cols="movie.flex">
+                 :cols="item.flex">
             <v-card>
               <v-img
-                :src="movie.poster_path ? `https://image.tmdb.org/t/p/w342${movie.poster_path}` : noImageSource"
+                :src="item.poster_path ? `https://image.tmdb.org/t/p/w342${item.poster_path}` : noImageSource"
                 :lazy-src="noImageSource"
                 class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="200px">
-                <v-card-title v-text="movie.title" />
-                <v-card-subtitle v-text="`(${getFullYear(movie.release_date)})`" />
+                <v-card-title v-text="type === 'tv' ? item.name : item.title" />
+                <v-card-subtitle v-text="`(${getFullYear(type === 'tv' ? item.first_air_date : item.release_date)})`" />
               </v-img>
               <v-card-actions>
                 <v-btn text
                        small
-                       @click.once.prevent="view(movie.id)">
+                       @click.once.prevent="view(item.id)">
                   View
                 </v-btn>
                 <v-spacer />
                 <v-btn text
                        small
                        color="primary"
-                       @click.once.prevent="add(movie.id)">
+                       @click.once.prevent="add(item.id)">
                   Add to Library
                 </v-btn>
               </v-card-actions>
@@ -84,7 +84,12 @@ export default Vue.extend({
       type: Boolean,
       required: false,
       default: true
-    }
+    },
+    type: {
+      type: String,
+      required: true,
+      default: "movie"
+    },
   },
   data: () => ({
     noImageSource: "../static/noimg.png",
@@ -99,8 +104,8 @@ export default Vue.extend({
         this.$emit("input", newValue);
       }
     },
-    movieSearchResults() {
-      return this.$store.getters.movieSearchResults;
+    searchResults() {
+      return this.$store.getters.searchResults;
     },
     searchErrorMessage() {
       return this.$store.getters.searchErrorMessage;
@@ -117,12 +122,16 @@ export default Vue.extend({
     view(id) {
       console.log(`TODO: View function ${id}`);
     },
-    searchMovies: _.debounce(function (query) {
-      this.$store.dispatch("searchMovies", { query });
+    search: _.debounce(function search(query) {
+      if (this.type === "tv") {
+        this.$store.dispatch("searchTv", { query });
+      } else {
+        this.$store.dispatch("searchMovies", { query });
+      }
     }, 200),
     getFullYear(dateString) {
       return new Date(dateString).getFullYear();
-    }
+    },
   }
 });
 </script>
