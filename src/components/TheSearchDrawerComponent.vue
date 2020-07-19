@@ -38,7 +38,7 @@
                  :cols="item.flex">
             <v-card>
               <v-img
-                :src="item.poster_path ? `https://image.tmdb.org/t/p/w342${item.poster_path}` : noImageSource"
+                :src="item.poster_path ? `${item.poster_path}` : noImageSource"
                 :lazy-src="noImageSource"
                 class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
@@ -49,14 +49,14 @@
               <v-card-actions>
                 <v-btn text
                        small
-                       @click.once.prevent="view(item.id)">
+                       @click.once.prevent="view(item)">
                   View
                 </v-btn>
                 <v-spacer />
                 <v-btn text
                        small
                        color="primary"
-                       @click.once.prevent="add(item.id)">
+                       @click.once.prevent="add(item)">
                   Add to Library
                 </v-btn>
               </v-card-actions>
@@ -65,19 +65,21 @@
         </template>
       </v-row>
     </v-container>
-    <TheSearchPreviewDialogComponent v-model="showTmdbSearchDialog" />
+    <TheSearchPreviewDialogComponent v-show="isModalVisible"
+                                     :type="type"
+                                     :item="selectedItem" />
   </v-navigation-drawer>
 </template>
 
 <script>
 import Vue from "vue";
 import _ from "lodash";
-import TheSearchPreviewDialogComponent from "./TheSearchPreviewDialogComponent";
+import { searchPreviewDialogBus } from "../main";
 
 export default Vue.extend({
   name: "TheSearchDrawerComponent",
   components: {
-    TheSearchPreviewDialogComponent
+    TheSearchPreviewDialogComponent: () => import("./TheSearchPreviewDialogComponent")
   },
   props: {
     value: {
@@ -93,7 +95,9 @@ export default Vue.extend({
   },
   data: () => ({
     noImageSource: "../static/noimg.png",
-    showTmdbSearchDialog: false,
+    isModalVisible: false,
+    selectedItem: {},
+    alertMessage: "",
   }),
   computed: {
     drawer: {
@@ -111,16 +115,25 @@ export default Vue.extend({
       return this.$store.getters.searchErrorMessage;
     },
     isLoading() {
-      return this.$store.getters.loadng;
+      return this.$store.getters.loading;
     }
   },
   methods: {
-    add(id) {
-      console.log(`TODO: Add function ${id}`);
-      this.dialog = false;
+    add(item) {
+      if (this.type === "tv") {
+        this.$store.dispatch("addTvSeries", item).then(() => {
+          this.dialog = false;
+        });
+      } else {
+        this.$store.dispatch("addMovie", item).then(() => {
+          this.dialog = false;
+        });
+      }
     },
-    view(id) {
-      console.log(`TODO: View function ${id}`);
+    view(item) {
+      searchPreviewDialogBus.$emit("dialog", true);
+      this.selectedItem = item;
+      this.isModalVisible = true;
     },
     search: _.debounce(function search(query) {
       if (this.type === "tv") {

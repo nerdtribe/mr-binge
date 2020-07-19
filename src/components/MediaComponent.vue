@@ -15,20 +15,26 @@
         </v-btn>
       </v-toolbar>
     </v-col>
-    <v-col v-for="n in 30"
-           :key="n"
+    <template v-if="type === 'movies' && !movies.length">
+      <p>Search for a movie</p>
+    </template>
+    <template v-if="type === 'tv' && !tvSeries.length">
+      <p>Search for a TV series</p>
+    </template>
+    <v-col v-for="item in type === 'movies' ? movies : tvSeries"
+           :key="item.id"
            cols="12"
            sm="3">
       <MediaCardComponent
         v-if="type === 'movies'"
-        :id="n++"
-        image-src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
-        title="Movie Title" />
+        :id="item.id"
+        :image-src="item.poster_path"
+        :title="item.title ? item.title : item.name" />
       <MediaCardComponent
         v-if="type === 'tv'"
-        :id="n"
-        image-src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-        title="TV Title" />
+        :id="item.id"
+        :image-src="item.poster_path"
+        :title="item.title ? item.title : item.name" />
     </v-col>
     <TheSearchDrawerComponent v-model="showTmdbSearchDrawer"
                               :type="type" />
@@ -55,5 +61,13 @@ export default Vue.extend({
   data: () => ({
     showTmdbSearchDrawer: false,
   }),
+  computed: {
+    movies() {
+      return this.$store.getters.getMovies;
+    },
+    tvSeries() {
+      return this.$store.getters.getTvSeries;
+    },
+  },
 });
 </script>

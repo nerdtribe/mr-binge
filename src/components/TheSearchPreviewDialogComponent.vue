@@ -3,46 +3,40 @@
             persistent
             max-width="75%">
     <v-card class="ma-0">
-      <v-card-title class="headline">
-        Frozen II <span class="caption mt-2 ml-2"> (2019)</span>
-      </v-card-title>
-      <v-toolbar flat
-                 class="mb-2">
-        <v-rating
-          :value="3"
-          background-color="white"
-          color="yellow accent-4"
-          dense
-          half-increments
-          readonly
-          size="24" />
-        <v-spacer />
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-progress-circular :value="70"
-                                 :size="55"
-                                 :width="8"
-                                 v-on="on">
-              70%
-            </v-progress-circular>
-          </template>
-          <span>Rating via 188 votes.</span>
-        </v-tooltip>
-      </v-toolbar>
-      <v-card-text class="d-flex align-center flex-column">
-        Elsa, Anna, Kristoff and Olaf head far into the forest to learn the truth about an ancient mystery of their kingdom.
-        <div class="pa-4">
-          <youtube video-id="Zi4LMpSDccc" />
+      <v-img
+        cover
+        :src="item.backdrop_path ? `${item.backdrop_path}` : noImageSource"
+        :lazy-src="noImageSource"
+        class="white--text align-end"
+        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+        height="200px">
+        <v-card-title class="headline">
+          {{ item.title ? item.title : item.name }}
+          <span class="caption mt-2 ml-2"> ({{ getFullYear(item.release_date || item.first_air_date) }})</span>
+          <v-spacer />
+          <span class="caption mt-2 mr-2">({{ item.vote_count }} votes)</span>
+          <v-progress-circular :value="item.vote_average / 0.1"
+                               :size="60"
+                               :width="3">
+            {{ item.vote_average /0.1 }}%
+          </v-progress-circular>
+        </v-card-title>
+      </v-img>
+      <v-card-text class="d-flex align-center flex-column pa-4">
+        {{ item.overview }}
+        <div v-if="item.videos"
+             class="pa-4">
+          <youtube :video-id="item.videos.results[0]" />
         </div>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
         <v-btn text
-               @click="dialog = false">
+               @click="close()">
           Close
         </v-btn>
         <v-btn text
-               @click.once.prevent="add('id')">
+               @click.once.prevent="add(item)">
           Add to Library
         </v-btn>
       </v-card-actions>
@@ -52,32 +46,45 @@
 
 <script>
 import Vue from "vue";
+import { searchPreviewDialogBus } from "../main";
 
 export default Vue.extend({
   name: "TheSearchPreviewDialogComponent",
   props: {
-    value: {
-      type: Boolean,
-      required: false,
-      default: true,
+    item: {
+      type: Object,
+      required: true,
+      default: null,
+    },
+    type: {
+      type: String,
+      required: true,
+      default: ""
     },
   },
-  data: () => ({ }),
-  computed: {
-    dialog: {
-      get() {
-        return this.value;
-      },
-      set(newValue) {
-        this.$emit("input", newValue);
-      }
-    }
+  data: () => ({
+    noImageSource: "../static/noimg.png",
+    dialog: false,
+  }),
+  created() {
+    searchPreviewDialogBus.$on("dialog", value => {
+      this.dialog = value;
+    });
   },
   methods: {
-    add(id) {
-      console.log(`Firing ${id}`);
-      this.dialog = false;
+    add(item) {
+      if (this.type === "tv") {
+        this.$store.dispatch("addTvSeries", item).then(() => this.close());
+      } else {
+        this.$store.dispatch("addMovie", item).then(() => this.close());
+      }
     },
+    getFullYear(dateString) {
+      return new Date(dateString).getFullYear();
+    },
+    close() {
+      searchPreviewDialogBus.$emit("dialog", false);
+    }
   },
 });
 </script>

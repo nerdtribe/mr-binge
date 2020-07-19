@@ -17,6 +17,26 @@ export default {
   },
   writeTmdbApiEnabled(payload) {
     db.set("tmdbApiEnabled", payload).write();
+  },
+  async addMovie(payload) {
+    try {
+      db.get("movies")
+        .push({ ...payload })
+        .write();
+      return payload.id;
+    } catch (error) {
+      return { error };
+    }
+  },
+  async addTvSeries(payload) {
+    try {
+      db.get("tvSeries")
+        .push({ ...payload })
+        .write();
+      return payload.id;
+    } catch (error) {
+      return { error };
+    }
   }
 
 };

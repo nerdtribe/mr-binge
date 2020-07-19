@@ -13,6 +13,8 @@ const store = new Vuex.Store({
     setState(state, payload) {
       state.tmdbApiKey = payload.tmdbApiKey;
       state.tmdbApiEnabled = payload.tmdbApiEnabled;
+      state.movies = payload.movies;
+      state.tvSeries = payload.tvSeries;
     },
     setLoading(state, payload) {
       state.loading = payload;
@@ -34,11 +36,11 @@ const store = new Vuex.Store({
     },
     clearSearchErrorMessage(state) {
       state.searchErrorMessage = null;
-    }
+    },
   },
   actions: {
-    loadDb({ commit }, payload) {
-      commit("setState", payload);
+    loadDb({ commit }) {
+      commit("setState", db.readDatabase());
     },
     tmdbApiKey({ commit, state }, payload) {
       commit("addTmdbApiKey", payload);
@@ -80,14 +82,40 @@ const store = new Vuex.Store({
     },
     clearSearch({ commit }) {
       commit("clearSearch");
-    }
+    },
+    addMovie({ commit, dispatch }, payload) {
+      commit("setLoading", true);
+      db.addMovie(payload).then(response => {
+        if (response.error) {
+          console.error(`Error in addMovie function! ${response.error}`);
+          return response.error;
+        }
+        dispatch("loadDb");
+        return response;
+      });
+      commit("setLoading", false);
+    },
+    addTvSeries({ commit, dispatch }, payload) {
+      commit("setLoading", true);
+      db.addTvSeries(payload).then(response => {
+        if (response.error) {
+          console.error(`Error in addTvSeries function! ${response.error}`);
+          return response.error;
+        }
+        dispatch("loadDb");
+        return response;
+      });
+      commit("setLoading", false);
+    },
   },
   getters: {
-    loadng: state => state.loading,
+    loading: state => state.loading,
     tmdbApiKey: state => state.tmdbApiKey,
     tmdbApiEnabled: state => state.tmdbApiEnabled,
     searchResults: state => state.search,
     searchErrorMessage: state => state.searchErrorMessage,
+    getMovies: state => state.movies,
+    getTvSeries: state => state.tvSeries,
   },
   modules: {}
 });
