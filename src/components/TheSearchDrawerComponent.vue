@@ -122,11 +122,11 @@ export default Vue.extend({
     add(item) {
       if (this.type === "tv") {
         this.$store.dispatch("addTvSeries", item).then(() => {
-          this.dialog = false;
+          this.drawer = false;
         });
       } else {
         this.$store.dispatch("addMovie", item).then(() => {
-          this.dialog = false;
+          this.drawer = false;
         });
       }
     },
