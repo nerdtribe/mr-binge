@@ -1,22 +1,25 @@
 <template>
-  <v-card class="ma-0"
+  <v-card v-model="visible"
+          class="ma-0"
           height="100%">
     <v-toolbar
       color="blue-grey darken-2">
       <v-btn icon
              class="ml-1"
-             @click="$router.go(-1)">
+             @click="close()">
         <v-icon>mdi-backburger</v-icon>
       </v-btn>
       <v-divider
         class="mx-4"
         vertical />
       <v-toolbar-title class="display-1">
-        Frozen II <span class="caption"> (2019)</span>
+        {{ item.title ? item.title : item.name }}
+        <span class="caption"> ({{ getFullYear(item.release_date || item.first_air_date) }})</span>
       </v-toolbar-title>
     </v-toolbar>
     <v-toolbar>
       <v-switch
+        :true-value="item.watched"
         label="Watched"
         color="success"
         hide-details />
@@ -24,7 +27,7 @@
         class="mx-4"
         vertical />
       <v-rating
-        :value="3"
+        :value="item.rating"
         background-color="white"
         color="yellow accent-4"
         dense
@@ -32,27 +35,19 @@
         hover
         size="24" />
       <v-spacer />
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-progress-circular :value="70"
-                               :size="55"
-                               :width="8"
-                               v-on="on">
-            70%
-          </v-progress-circular>
-        </template>
-        <span>Rating via 188 votes.</span>
-      </v-tooltip>
+      <span class="caption mt-2 mr-2">({{ item.vote_count }} votes)</span>
+      <v-progress-circular :value="item.vote_average / 0.1"
+                           :size="60"
+                           :width="3">
+        {{ item.vote_average /0.1 }}%
+      </v-progress-circular>
     </v-toolbar>
     <v-card-text>
       <v-layout align-center
                 justify-center
                 column
                 fill-height>
-        <p>Route ID: {{ $route.params.id }}</p>
-        <p class="body-1">
-          Elsa, Anna, Kristoff and Olaf head far into the forest to learn the truth about an ancient mystery of their kingdom.
-        </p>
+        <p class="body-1">{{ item.overview }}</p>
         <youtube video-id="Zi4LMpSDccc" />
       </v-layout>
     </v-card-text>
@@ -90,6 +85,37 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "MediaDetailComponent"
+  name: "MediaDetailComponent",
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
+    type: {
+      type: String,
+      default: "",
+      required: true,
+    }
+  },
+  computed: {
+    visible() {
+      return this.$store.getters.itemDetailShow;
+    },
+    item() {
+      if (this.type === "movies") {
+        return this.$store.getters.getMovieById(this.id);
+      }
+      return this.$store.getters.getTvSeriesById(this.id);
+    }
+  },
+  methods: {
+    getFullYear(dateString) {
+      return new Date(dateString).getFullYear();
+    },
+    close() {
+      this.$store.dispatch("toggleItemDetail");
+    }
+  },
 });
 </script>

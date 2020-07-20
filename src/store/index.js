@@ -37,6 +37,12 @@ const store = new Vuex.Store({
     clearSearchErrorMessage(state) {
       state.searchErrorMessage = null;
     },
+    toggleItemDetail(state) {
+      state.appState.itemDetailShow = !state.appState.itemDetailShow;
+    },
+    toggleSearchPreviewDialog(state) {
+      state.appState.searchPreviewDialogShow = !state.appState.searchPreviewDialogShow;
+    }
   },
   actions: {
     loadDb({ commit }) {
@@ -107,6 +113,12 @@ const store = new Vuex.Store({
       });
       commit("setLoading", false);
     },
+    toggleItemDetail({ commit }) {
+      commit("toggleItemDetail");
+    },
+    toggleSearchPreviewDialog({ commit }) {
+      commit("toggleSearchPreviewDialog");
+    }
   },
   getters: {
     loading: state => state.loading,
@@ -115,7 +127,11 @@ const store = new Vuex.Store({
     searchResults: state => state.search,
     searchErrorMessage: state => state.searchErrorMessage,
     getMovies: state => state.movies,
+    getMovieById: state => givenId => state.movies.find(movies => movies.id === givenId),
     getTvSeries: state => state.tvSeries,
+    getTvSeriesById: state => givenId => state.tvSeries.find(tvSeries => tvSeries.id === givenId),
+    itemDetailShow: state => state.appState.itemDetailShow,
+    searchPreviewDialogShow: state => state.appState.searchPreviewDialogShow,
   },
   modules: {}
 });

@@ -1,7 +1,12 @@
 const INITIAL_STATE = {
+  appState: {
+    itemDetailShow: false,
+    searchPreviewDialogShow: false,
+    selectedItem: {},
+  },
   tmdbApiEnabled: false,
   loading: false,
-  searchErrorMessage: null,
+  searchErrorMessage: "",
   search: [],
   movies: [],
   tvSeries: [],

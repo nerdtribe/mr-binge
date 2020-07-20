@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog"
+  <v-dialog v-model="visible"
             persistent
             max-width="75%">
     <v-card class="ma-0">
@@ -46,7 +46,6 @@
 
 <script>
 import Vue from "vue";
-import { searchPreviewDialogBus } from "../main";
 
 export default Vue.extend({
   name: "TheSearchPreviewDialogComponent",
@@ -66,10 +65,10 @@ export default Vue.extend({
     noImageSource: "../static/noimg.png",
     dialog: false,
   }),
-  created() {
-    searchPreviewDialogBus.$on("dialog", value => {
-      this.dialog = value;
-    });
+  computed: {
+    visible() {
+      return this.$store.getters.searchPreviewDialogShow;
+    },
   },
   methods: {
     add(item) {
@@ -83,7 +82,7 @@ export default Vue.extend({
       return new Date(dateString).getFullYear();
     },
     close() {
-      searchPreviewDialogBus.$emit("dialog", false);
+      this.$store.dispatch("toggleSearchPreviewDialog");
     }
   },
 });

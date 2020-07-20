@@ -2,10 +2,10 @@
   <v-card
     flat
     tile
-    :to="`/detail/${id}`">
+    :to="`/detail/${type}/${id}`">
     <v-img :src="imageSrc" />
     <v-card-actions>
-      <p>{{ title }}</p>
+      <p>{{ title }} id: {{id}}</p>
     </v-card-actions>
   </v-card>
 </template>

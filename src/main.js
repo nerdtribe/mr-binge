@@ -1,14 +1,12 @@
 import Vue from "vue";
 import VueYouTubeEmbed from "vue-youtube-embed";
 import App from "./App.vue";
-import router from "./router";
 import store from "./store";
+import router from "./router";
 import vuetify from "./plugins/vuetify";
 
 Vue.use(VueYouTubeEmbed);
 Vue.config.productionTip = false;
-
-export const searchPreviewDialogBus = new Vue();
 
 new Vue({
   router,

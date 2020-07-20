@@ -65,8 +65,7 @@
         </template>
       </v-row>
     </v-container>
-    <TheSearchPreviewDialogComponent v-show="isModalVisible"
-                                     :type="type"
+    <TheSearchPreviewDialogComponent :type="type"
                                      :item="selectedItem" />
   </v-navigation-drawer>
 </template>
@@ -74,7 +73,6 @@
 <script>
 import Vue from "vue";
 import _ from "lodash";
-import { searchPreviewDialogBus } from "../main";
 
 export default Vue.extend({
   name: "TheSearchDrawerComponent",
@@ -131,9 +129,8 @@ export default Vue.extend({
       }
     },
     view(item) {
-      searchPreviewDialogBus.$emit("dialog", true);
       this.selectedItem = item;
-      this.isModalVisible = true;
+      this.$store.dispatch("toggleSearchPreviewDialog");
     },
     search: _.debounce(function search(query) {
       if (this.type === "tv") {

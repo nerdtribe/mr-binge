@@ -33,7 +33,7 @@ const routes = [
     }
   },
   {
-    path: "/detail/:id",
+    path: "/detail/:type/:id",
     components: {
       default: TheNavbarComponent,
       component: DetailView
