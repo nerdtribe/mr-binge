@@ -3,6 +3,8 @@ const INITIAL_STATE = {
     itemDetailShow: false,
     searchPreviewDialogShow: false,
     selectedItem: {},
+    detailLoading: false,
+    detailSearchResults: {},
   },
   tmdbApiEnabled: false,
   loading: false,

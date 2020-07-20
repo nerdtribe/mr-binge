@@ -16,9 +16,17 @@ class ApiService {
   }
 
   async searchBroadTvMovie(type, query) {
-    const searchType = type === "tv" ? "tvShowTitle" : "movieTitle";
+    const searchType = type === "movies" ? "movieTitle" : "tvShowTitle";
     this.response = await this.axiosRequest(`${type}/search?${searchType}=${query}`).then(
       response => response
+    );
+    return this.response;
+  }
+
+  async searchDetailedTvMovie(type, id) {
+    const searchType = type === "movies" ? "movieID" : "tvShowID";
+    this.response = await this.axiosRequest(`${type}/detailed-search?${searchType}=${id}`).then(
+      response => response.data
     );
     return this.response;
   }

@@ -47,7 +47,9 @@
                 justify-center
                 column
                 fill-height>
-        <p class="body-1">{{ item.overview }}</p>
+        <p class="body-1">
+          {{ item.overview }}
+        </p>
         <youtube video-id="Zi4LMpSDccc" />
       </v-layout>
     </v-card-text>

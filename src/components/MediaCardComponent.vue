@@ -5,7 +5,7 @@
     :to="`/detail/${type}/${id}`">
     <v-img :src="imageSrc" />
     <v-card-actions>
-      <p>{{ title }} id: {{id}}</p>
+      <p>{{ title }} id: {{ id }}</p>
     </v-card-actions>
   </v-card>
 </template>

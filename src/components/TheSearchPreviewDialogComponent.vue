@@ -36,7 +36,7 @@
           Close
         </v-btn>
         <v-btn text
-               @click.once.prevent="add(item)">
+               @click.once.prevent="addItem()">
           Add to Library
         </v-btn>
       </v-card-actions>
@@ -71,12 +71,11 @@ export default Vue.extend({
     },
   },
   methods: {
-    add(item) {
-      if (this.type === "tv") {
-        this.$store.dispatch("addTvSeries", item).then(() => this.close());
-      } else {
-        this.$store.dispatch("addMovie", item).then(() => this.close());
+    addItem() {
+      if (this.type === "movies") {
+        this.$store.dispatch("addMovie", this.item).then(() => this.close());
       }
+      this.$store.dispatch("addTvSeries", this.item).then(() => this.close());
     },
     getFullYear(dateString) {
       return new Date(dateString).getFullYear();

@@ -42,7 +42,16 @@ const store = new Vuex.Store({
     },
     toggleSearchPreviewDialog(state) {
       state.appState.searchPreviewDialogShow = !state.appState.searchPreviewDialogShow;
-    }
+    },
+    toggleDetailLoading(state) {
+      state.appState.detailLoading = !state.appState.detailLoading;
+    },
+    setDetailSearchResults(state, payload) {
+      state.appState.detailSearchResults = payload;
+    },
+    clearDetailSearchResults(state) {
+      state.appState.detailSearchResults = {};
+    },
   },
   actions: {
     loadDb({ commit }) {
@@ -89,29 +98,42 @@ const store = new Vuex.Store({
     clearSearch({ commit }) {
       commit("clearSearch");
     },
-    addMovie({ commit, dispatch }, payload) {
+    async addMovie({ commit, dispatch }, { id }) {
       commit("setLoading", true);
-      db.addMovie(payload).then(response => {
-        if (response.error) {
-          console.error(`Error in addMovie function! ${response.error}`);
-          return response.error;
-        }
-        dispatch("loadDb");
-        return response;
+      if (id) {
+        await ApiService.searchDetailedTvMovie("movies", id).then(apiResponse => {
+          db.addMovie(apiResponse).then(dbResponse => {
+            dispatch("loadDb");
+            return dbResponse;
+          });
+        });
+      }
+      commit("setLoading", false);
+    },
+    async fetchMovieDetails({ commit }, id) {
+      commit("toggleDetailLoading");
+      await ApiService.searchDetailedTvMovie("movies", id).then(response => {
+        commit("setDetailSearchResults", response.data.results);
+      });
+      commit("toggleDetailLoading");
+    },
+    async addTvSeries({ commit, dispatch }, { id }) {
+      console.log(id);
+      commit("setLoading", true);
+      await ApiService.searchDetailedTvMovie("tv", id).then(apiResponse => {
+        db.addTvSeries(apiResponse).then(dbResponse => {
+          dispatch("loadDb");
+          return dbResponse;
+        });
       });
       commit("setLoading", false);
     },
-    addTvSeries({ commit, dispatch }, payload) {
-      commit("setLoading", true);
-      db.addTvSeries(payload).then(response => {
-        if (response.error) {
-          console.error(`Error in addTvSeries function! ${response.error}`);
-          return response.error;
-        }
-        dispatch("loadDb");
-        return response;
+    async fetchTvSeriesDetails({ commit }, id) {
+      commit("toggleDetailLoading");
+      await ApiService.searchDetailedTvMovie("tv", id).then(response => {
+        commit("setDetailSearchResults", response.data.results);
       });
-      commit("setLoading", false);
+      commit("toggleDetailLoading");
     },
     toggleItemDetail({ commit }) {
       commit("toggleItemDetail");
@@ -132,6 +154,7 @@ const store = new Vuex.Store({
     getTvSeriesById: state => givenId => state.tvSeries.find(tvSeries => tvSeries.id === givenId),
     itemDetailShow: state => state.appState.itemDetailShow,
     searchPreviewDialogShow: state => state.appState.searchPreviewDialogShow,
+    getDetailVideo: state => state.appState.detailSearchResults
   },
   modules: {}
 });

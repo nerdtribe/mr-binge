@@ -80,6 +80,11 @@ export default Vue.extend({
   },
   methods: {
     viewDetail(givenId) {
+      if (this.type === "movies") {
+        this.$store.dispatch("fetchMovieDetails", givenId);
+      } else {
+        this.$store.dispatch("fetchTvSeriesDetails", givenId);
+      }
       this.selectedItemId = givenId;
       this.$store.dispatch("toggleItemDetail");
     }
