@@ -25,14 +25,15 @@
       <v-col v-for="item in type === 'movies' ? movies : tvSeries"
              :key="item.id"
              cols="12"
-             sm="3">
+             sm="2"
+             xl="1">
         <v-card
           flat
           tile
           @click="viewDetail(item.id)">
           <v-img :src="item.poster_path" />
           <v-card-actions>
-            <p>{{ item.title ? item.title : item.name }}</p>
+            <p class="mb-0">{{ item.title ? item.title : item.name }}</p>
           </v-card-actions>
         </v-card>
       </v-col>
