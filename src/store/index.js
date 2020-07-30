@@ -187,8 +187,10 @@ const store = new Vuex.Store({
     searchErrorMessage: state => state.searchErrorMessage,
     getMovies: state => state.movies,
     getMovieById: state => givenId => state.movies.find(movies => movies.id === givenId),
+    getFilteredMovies: state => query => state.movies.filter(movie => movie.title.toLowerCase().includes(query.toLowerCase())),
     getTvSeries: state => state.tvSeries,
     getTvSeriesById: state => givenId => state.tvSeries.find(tvSeries => tvSeries.id === givenId),
+    getFilteredTvSeries: state => query => state.tvSeries.filter(series => series.name.toLowerCase().includes(query.toLowerCase())),
     itemDetailShow: state => state.appState.itemDetailShow,
     searchPreviewDialogShow: state => state.appState.searchPreviewDialogShow,
     getDetailVideo: state => state.appState.detailSearchResults
