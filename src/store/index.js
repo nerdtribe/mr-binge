@@ -127,7 +127,9 @@ const store = new Vuex.Store({
     async fetchMovieDetails({ commit }, id) {
       commit("toggleDetailLoading");
       await ApiService.searchDetailedTvMovie("movies", id).then(response => {
-        commit("setDetailSearchResults", response.data.results);
+        if (response.data) {
+          commit("setDetailSearchResults", response.data.results);
+        }
       });
       commit("toggleDetailLoading");
     },
