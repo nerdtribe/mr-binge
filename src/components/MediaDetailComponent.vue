@@ -50,7 +50,8 @@
         <p class="body-1">
           {{ item.overview }}
         </p>
-        <youtube video-id="Zi4LMpSDccc" />
+        <youtube v-if="item.videos.results.length"
+                 :video-id="item.videos.results[0].key" />
       </v-layout>
     </v-card-text>
     <v-speed-dial
