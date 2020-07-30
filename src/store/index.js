@@ -51,7 +51,7 @@ const store = new Vuex.Store({
     },
     clearDetailSearchResults(state) {
       state.appState.detailSearchResults = {};
-    },
+    }
   },
   actions: {
     loadDb({ commit }) {
@@ -100,7 +100,7 @@ const store = new Vuex.Store({
     },
     async addMovie({ commit, dispatch }, { id }) {
       commit("setLoading", true);
-      if (id) {
+      if (id && !(await db.checkIfMovieExists(id))) {
         await ApiService.searchDetailedTvMovie("movies", id).then(apiResponse => {
           db.addMovie(apiResponse).then(dbResponse => {
             dispatch("loadDb");
@@ -118,14 +118,15 @@ const store = new Vuex.Store({
       commit("toggleDetailLoading");
     },
     async addTvSeries({ commit, dispatch }, { id }) {
-      console.log(id);
       commit("setLoading", true);
-      await ApiService.searchDetailedTvMovie("tv", id).then(apiResponse => {
-        db.addTvSeries(apiResponse).then(dbResponse => {
-          dispatch("loadDb");
-          return dbResponse;
+      if (!(await db.checkIfTvSeriesExists(id))) {
+        await ApiService.searchDetailedTvMovie("tv", id).then(apiResponse => {
+          db.addTvSeries(apiResponse).then(dbResponse => {
+            dispatch("loadDb");
+            return dbResponse;
+          });
         });
-      });
+      }
       commit("setLoading", false);
     },
     async fetchTvSeriesDetails({ commit }, id) {
@@ -140,6 +141,26 @@ const store = new Vuex.Store({
     },
     toggleSearchPreviewDialog({ commit }) {
       commit("toggleSearchPreviewDialog");
+    },
+    async deleteMovie({ commit }, payload) {
+      await db.deleteMovie(payload).then(response => {
+        if (!response) {
+          commit(
+            "setSearchErrorMessage",
+            "Delete error, please refresh."
+          );
+        }
+      });
+    },
+    async deleteTvSeries({ commit }, payload) {
+      await db.deleteTvSeries(payload).then(response => {
+        if (!response) {
+          commit(
+            "setSearchErrorMessage",
+            "Delete error, please refresh."
+          );
+        }
+      });
     }
   },
   getters: {

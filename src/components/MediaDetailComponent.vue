@@ -71,7 +71,8 @@
       <v-btn
         fab
         small
-        color="red">
+        color="red"
+        @click="deleteItem(item.uuid)">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
       <v-btn
@@ -117,7 +118,15 @@ export default Vue.extend({
     },
     close() {
       this.$store.dispatch("toggleItemDetail");
-    }
+    },
+    deleteItem(givenUuid) {
+      if (this.type === "movies") {
+        this.$store.dispatch("deleteMovie", givenUuid);
+        this.close();
+      }
+      this.$store.dispatch("deleteTvSeries", givenUuid);
+      this.close();
+    },
   },
 });
 </script>

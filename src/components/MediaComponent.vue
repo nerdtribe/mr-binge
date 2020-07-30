@@ -33,7 +33,9 @@
           @click="viewDetail(item.id)">
           <v-img :src="item.poster_path" />
           <v-card-actions>
-            <p class="mb-0">{{ item.title ? item.title : item.name }}</p>
+            <p class="mb-0">
+              {{ item.title ? item.title : item.name }}
+            </p>
           </v-card-actions>
         </v-card>
       </v-col>
