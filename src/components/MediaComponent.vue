@@ -31,7 +31,7 @@
           flat
           tile
           @click="viewDetail(item.id)">
-          <v-img :src="item.poster_path" />
+          <v-img :src="item.poster_path || require('@/static/noimg.png')" />
           <v-card-actions>
             <p class="mb-0">
               {{ item.title ? item.title : item.name }}

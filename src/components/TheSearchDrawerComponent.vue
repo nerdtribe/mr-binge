@@ -38,8 +38,8 @@
                  :cols="item.flex">
             <v-card>
               <v-img
-                :src="item.poster_path ? `${item.poster_path}` : noImageSource"
-                :lazy-src="noImageSource"
+                :src="item.poster_path ? `${item.poster_path}` : require('@/static/noimg.png')"
+                :lazy-src="require('@/static/noimg.png')"
                 class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="200px">
@@ -92,7 +92,6 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    noImageSource: "../static/noimg.png",
     isModalVisible: false,
     selectedItem: {},
     alertMessage: "",
