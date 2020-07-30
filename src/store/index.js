@@ -65,33 +65,47 @@ const store = new Vuex.Store({
       commit("tmdbApiEnabled", payload);
       db.writeTmdbApiEnabled(state.tmdbApiEnabled);
     },
-    async searchMovies({ commit }, { query }) {
+    async searchMovies({ commit, getters }, { query }) {
       commit("setLoading", true);
       commit("clearSearchErrorMessage");
       commit("clearSearch");
       await ApiService.searchBroadTvMovie("movies", query).then(response => {
-        if (!response.data.results.length) {
+        const movies = getters.getMovies;
+        const results = response.data.results.filter(result => {
+          if (movies.some(movie => movie.id === result.id)) {
+            return null;
+          }
+          return result;
+        });
+        if (!results.length) {
           commit(
             "setSearchErrorMessage",
             `No results found for ${query}, please revise your search.`
           );
         }
-        commit("setSearch", response.data.results);
+        commit("setSearch", results);
       });
       commit("setLoading", false);
     },
-    async searchTv({ commit }, { query }) {
+    async searchTv({ commit, getters }, { query }) {
       commit("setLoading", true);
       commit("clearSearchErrorMessage");
       commit("clearSearch");
       await ApiService.searchBroadTvMovie("tv", query).then(response => {
-        if (!response.data.results.length) {
+        const tvSeries = getters.getTvSeries;
+        const results = response.data.results.filter(result => {
+          if (tvSeries.some(series => series.id === result.id)) {
+            return null;
+          }
+          return result;
+        });
+        if (!results.length) {
           commit(
             "setSearchErrorMessage",
             `No results found for ${query}, please revise your search.`
           );
         }
-        commit("setSearch", response.data.results);
+        commit("setSearch", results);
       });
       commit("setLoading", false);
     },
